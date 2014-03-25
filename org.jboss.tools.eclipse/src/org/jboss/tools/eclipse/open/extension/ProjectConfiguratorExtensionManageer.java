@@ -1,4 +1,4 @@
-package org.jboss.tools.eclipse.extension;
+package org.jboss.tools.eclipse.open.extension;
 
 import java.util.Collection;
 import java.util.HashSet;

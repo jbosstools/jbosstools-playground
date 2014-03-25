@@ -1,11 +1,9 @@
-package org.jboss.tools.eclipse.extension;
-
-import java.util.Collection;
+package org.jboss.tools.eclipse.open.extension;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.IWizard;
 
 /**
  * This interface contains a set of methods that allow to
@@ -29,7 +27,7 @@ public interface ProjectConfigurator {
 	 */
 	public boolean canApplyFor(IProjectDescription projectDescription, IProgressMonitor monitor);
 	
-	public Collection<IWizardPage> getConfigurationWizardPages();
+	public IWizard getConfigurationWizard();
 	
 	public void applyTo(IProject project, IProgressMonitor monitor);
 	

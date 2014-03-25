@@ -24,7 +24,7 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="org.jboss.tools.eclipse.OpenFolderCommand"
+            class="org.jboss.tools.eclipse.open.OpenFolderCommand"
             commandId="org.jboss.tools.eclipse.openDirectory">
       </handler>
    </extension>
@@ -34,6 +34,22 @@
             commandId="org.jboss.tools.eclipse.openDirectory"
             icon="pics/prj_obj.gif">
       </image>
+   </extension>
+   
+   <extension point="org.eclipse.ui.propertyPages">
+   		<page
+            class="org.eclipse.ui.internal.ide.dialogs.ProjectNaturesPage"
+            id="org.eclipse.ui.propertypages.project.natures"
+            name="%PropertyPages.project.natures"
+            >
+         <filter
+               name="open"
+               value="true">
+         </filter>
+         <enabledWhen>
+            <adapt type="org.eclipse.core.resources.IProject"/>
+         </enabledWhen>
+      </page>
    </extension>
 
 </plugin>

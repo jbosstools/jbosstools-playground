@@ -1,4 +1,4 @@
-package org.jboss.tools.eclipse;
+package org.jboss.tools.eclipse.open;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,13 +16,17 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.undo.CreateProjectOperation;
+import org.jboss.tools.eclipse.Activator;
+import org.jboss.tools.eclipse.Messages;
 import org.xml.sax.InputSource;
 
 public class OpenFolderCommand extends AbstractHandler implements IHandler {
@@ -47,14 +51,21 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 			}
 		}
 		
-		IProgressMonitor monitor = new NullProgressMonitor();
+		Job job = new Job("Opening folder " + directory.getName()) {
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		};
 		
 		File expectedProjectDescriptionFile = new File(directory, IProjectDescription.DESCRIPTION_FILE_NAME);
 		if (expectedProjectDescriptionFile.exists()) {
 			InputStream stream = null;
 			IProjectDescription projectDescription = null;
 			try {
-				new FileInputStream(expectedProjectDescriptionFile);
+				stream = new FileInputStream(expectedProjectDescriptionFile);
 				InputSource source = new InputSource(stream);
 				projectDescription = new ProjectDescriptionReader().read(source);
 				stream.close();
@@ -78,7 +89,7 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 			} else {
 				projectDescription.setLocation(new Path(directory.getAbsolutePath()));
 				CreateProjectOperation operation = new CreateProjectOperation(projectDescription, NLS.bind(Messages.importProject, currentName));
-				operation.execute(monitor, null);
+				return performProjectCreationAndReturn(operation, directory.getName(), projectDescription.getName());
 			}
 		}
 		
@@ -88,10 +99,26 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 		IProjectDescription desc = new ProjectDescription();
 		desc.setName(currentName);
 		desc.setLocation(new Path(directory.getAbsolutePath()));
+		// open Configuration wizard
 		CreateProjectOperation operation = new CreateProjectOperation(desc, NLS.bind(Messages.importProject, currentName));
-		operation.execute(monitor, null);
-		// TODO here: show project configuration wizard
-		return operation.getAffectedObjects()[0];
+		return performProjectCreationAndReturn(operation, directory.getName(), desc.getName());
+	}
+	
+	public IProject performProjectCreationAndReturn(final CreateProjectOperation operation, String directory, String projectName) {
+		Job job = new Job("Opening directory: " + directory + " as " + projectName) {
+			
+			@Override
+			public IStatus run(IProgressMonitor monitor) {
+				try {
+					return operation.execute(monitor, null);
+				} catch (ExecutionException ex) {
+					return new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage());
+				}
+			}
+		};
+		job.setUser(true);
+		job.schedule();
+		return null;
 	}
 
 }
