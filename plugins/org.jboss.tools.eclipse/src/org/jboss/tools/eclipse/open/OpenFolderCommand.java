@@ -27,6 +27,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.undo.CreateProjectOperation;
 import org.jboss.tools.eclipse.Activator;
 import org.jboss.tools.eclipse.Messages;
+import org.jboss.tools.eclipse.open.extension.ProjectConfigurator;
+import org.jboss.tools.eclipse.open.extension.ProjectConfiguratorExtensionManageer;
 import org.xml.sax.InputSource;
 
 public class OpenFolderCommand extends AbstractHandler implements IHandler {
@@ -110,7 +112,17 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 			@Override
 			public IStatus run(IProgressMonitor monitor) {
 				try {
-					return operation.execute(monitor, null);
+					IStatus status = operation.execute(monitor, null);
+					if (!status.isOK()) {
+						return status;
+					}
+					IProject newProject = (IProject) operation.getAffectedObjects()[0];
+					for (ProjectConfigurator configurator : ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators()) {
+						if (configurator.canApplyFor(newProject, monitor)) {
+							configurator.applyTo(newProject, monitor);
+						}
+					}
+					return Status.OK_STATUS;
 				} catch (ExecutionException ex) {
 					return new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage());
 				}

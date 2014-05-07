@@ -38,7 +38,7 @@
    
    <extension point="org.eclipse.ui.propertyPages">
    		<page
-            class="org.eclipse.ui.internal.ide.dialogs.ProjectNaturesPage"
+            class="org.jboss.tools.eclipse.natures.ProjectNaturesPage"
             id="org.eclipse.ui.propertypages.project.natures"
             name="%PropertyPages.project.natures"
             >
@@ -50,6 +50,15 @@
             <adapt type="org.eclipse.core.resources.IProject"/>
          </enabledWhen>
       </page>
+   </extension>
+   <extension
+         point="org.jboss.tools.eclipse.projectConfigurators">
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.java.JDTProjectNature">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.maven.MavenProjectConfigurator">
+      </projectConfigurator>
    </extension>
 
 </plugin>

@@ -22,10 +22,10 @@ public interface ProjectConfigurator {
 	
 	/**
 	 * This method MUST BE be stateless (ideally static)
-	 * @param projectDescription
+	 * @param project
 	 * @return
 	 */
-	public boolean canApplyFor(IProjectDescription projectDescription, IProgressMonitor monitor);
+	public boolean canApplyFor(IProject project, IProgressMonitor monitor);
 	
 	public IWizard getConfigurationWizard();
 	

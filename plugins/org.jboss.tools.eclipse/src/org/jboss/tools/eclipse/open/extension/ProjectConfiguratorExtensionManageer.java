@@ -15,7 +15,7 @@ import org.jboss.tools.eclipse.Activator;
 
 public class ProjectConfiguratorExtensionManageer {
 
-	private static final String EXTENSION_POINT_ID = Activator.PLUGIN_ID + "projectConfigurators"; //$NON-NLS-1$
+	private static final String EXTENSION_POINT_ID = Activator.PLUGIN_ID + ".projectConfigurators"; //$NON-NLS-1$
 
 	private static ProjectConfiguratorExtensionManageer INSTANCE;
 	
