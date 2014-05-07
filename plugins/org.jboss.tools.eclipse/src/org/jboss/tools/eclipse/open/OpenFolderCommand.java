@@ -53,15 +53,6 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 			}
 		}
 		
-		Job job = new Job("Opening folder " + directory.getName()) {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-		};
-		
 		File expectedProjectDescriptionFile = new File(directory, IProjectDescription.DESCRIPTION_FILE_NAME);
 		if (expectedProjectDescriptionFile.exists()) {
 			InputStream stream = null;

@@ -59,6 +59,12 @@
       <projectConfigurator
             class="org.jboss.tools.eclipse.open.extension.examples.maven.MavenProjectConfigurator">
       </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.pde.bundle.BundleProjectConfigurator">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.pde.feature.FeatureProjectConfigurator">
+      </projectConfigurator>
    </extension>
 
 </plugin>
