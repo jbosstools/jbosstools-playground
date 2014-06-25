@@ -37,6 +37,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	        	configurationManager.enableMavenNature(project, configuration, monitor);
 	        }
 	        configurationManager.updateProjectConfiguration(project, monitor);
+	        // TODO (if not done automatically), invoke all AbstractProjectConfigurator
         } catch (Exception ex) {
 			Activator.getDefault().getLog().log(new Status(
 					IStatus.ERROR,

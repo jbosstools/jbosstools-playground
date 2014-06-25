@@ -65,6 +65,18 @@
       <projectConfigurator
             class="org.jboss.tools.eclipse.open.extension.examples.pde.feature.FeatureProjectConfigurator">
       </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.javascript.JSDTProjectNature">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.jee.servlet.ServletProjectConfigurator">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.jee.servlet.JPAProjectConfigurator">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.jee.servlet.JaxRsConfigurator">
+      </projectConfigurator>
    </extension>
 
 </plugin>

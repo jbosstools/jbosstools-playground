@@ -53,7 +53,7 @@ public class JDTProjectNature implements ProjectConfigurator {
 		public boolean visit(final IResource resource) throws CoreException {
 			boolean alreadyInAResourceFolder = false;
 			IResource aParentResource = resource;
-			while (!alreadyInAResourceFolder && aParentResource.getType() != IResource.PROJECT) {
+			while (!alreadyInAResourceFolder && aParentResource.getType() != IResource.ROOT) {
 				alreadyInAResourceFolder = this.mostLikelySourceFolders.contains(aParentResource);
 				aParentResource = aParentResource.getParent();
 			}
