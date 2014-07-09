@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+	<description>
+	To install these features, point Eclipse at this site.
+	</description>
+
+	<category-def name="JBoss Tools Eclipse" label="JBoss Tools Eclipse">
+		<description>JBoss Eclipse contains some generic addition for project management.</description>
+	</category-def>
+
+
+	<bundle id="org.jboss.tools.eclipse" version="0.0.0">
+		<category name="JBoss Tools Eclipse"/>
+	</bundle>
+</site>
