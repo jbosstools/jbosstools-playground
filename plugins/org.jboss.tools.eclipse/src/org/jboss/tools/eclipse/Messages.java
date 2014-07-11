@@ -25,4 +25,9 @@ public class Messages extends NLS {
 	public static String ProjectNaturesPage_changeWarningTitle;
 	public static String ProjectNaturesPage_warningMessage;
 	public static String ProjectNaturesPage_changeWarningQuestion;
+	
+	// --- Nested Projects
+	public static String ShowProjectHere;
+	public static String OpenProjectHere;
+	public static String ShowAsFolder;
 }

@@ -78,5 +78,73 @@
             class="org.jboss.tools.eclipse.open.extension.examples.jee.servlet.JaxRsConfigurator">
       </projectConfigurator>
    </extension>
+   
+   <!-- Nested Projects -->
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="org.jboss.tools.eclipse.nestedProjects.NestedProjectsContentProvider"
+            id="org.jboss.tools.eclipse.nestedProjects"
+            labelProvider="org.jboss.tools.eclipse.nestedProjects.NestedProjectsLabelProvider"
+            name="%filters.nestedProjects.name"
+            priority="higher">
+         <enablement>
+            <adapt
+                  type="org.eclipse.core.resources.IContainer">
+            </adapt>
+         </enablement>
+         <possibleChildren>
+            <instanceof
+                  value="org.eclipse.core.resources.IProject">
+            </instanceof>
+         </possibleChildren>
+      </navigatorContent>
+      <commonFilter
+            activeByDefault="true"
+            class="org.jboss.tools.eclipse.nestedProjects.NestedProjectsFilter"
+            description="%filters.nestedProjects.description"
+            id="org.jboss.tools.eclipse.nestedProjects"
+            name="%filters.nestedProjects.name"
+            visibleInUI="true">
+      </commonFilter>
+      <actionProvider
+            class="org.jboss.tools.eclipse.nestedProjects.NestedProjectActionProvider"
+            id="org.jboss.tools.eclipse.nestedProjects.NestedProjectActions">
+         <enablement>
+            <or>
+               <adapt
+                     type="org.eclipse.core.resources.IFolder">
+               </adapt>
+               <adapt
+                     type="org.eclipse.core.resources.IProject">
+               </adapt>
+            </or>
+         </enablement>
+      </actionProvider>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <actionExtension
+                  pattern="org.jboss.tools.eclipse.nestedProjects.NestedProjectActions">
+            </actionExtension>
+            <contentExtension
+                  pattern="org.jboss.tools.eclipse.nestedProjects">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+      <viewerActionBinding
+            viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <actionExtension
+                  pattern="org.jboss.tools.eclipse.nestedProjects.NestedProjectActions">
+            </actionExtension>
+         </includes>
+      </viewerActionBinding>
+   </extension>
+   
 
 </plugin>

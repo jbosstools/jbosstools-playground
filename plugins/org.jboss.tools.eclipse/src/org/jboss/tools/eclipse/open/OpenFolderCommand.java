@@ -94,7 +94,7 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 		desc.setLocation(new Path(directory.getAbsolutePath()));
 		// open Configuration wizard
 		CreateProjectOperation operation = new CreateProjectOperation(desc, NLS.bind(Messages.importProject, currentName));
-		return performProjectCreationAndReturn(operation, directory.getName(), desc.getName());
+		return performProjectCreationAndReturn(operation, directory.getName(), currentName);
 	}
 	
 	public IProject performProjectCreationAndReturn(final CreateProjectOperation operation, String directory, String projectName) {
@@ -115,7 +115,7 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 					}
 					return Status.OK_STATUS;
 				} catch (ExecutionException ex) {
-					return new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage());
+					return new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
 				}
 			}
 		};

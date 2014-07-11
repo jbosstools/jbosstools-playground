@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Eclipse
+Bundle-Name: Eclipse Candies
 Bundle-SymbolicName: org.jboss.tools.eclipse;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.jboss.tools.eclipse.Activator
@@ -26,7 +26,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.j2ee.web,
  org.eclipse.jst.j2ee.webservice,
  org.eclipse.wst.common.frameworks,
- org.eclipse.wst.jsdt.core;bundle-version="1.3.100"
+ org.eclipse.wst.jsdt.core;bundle-version="1.3.100",
+ org.eclipse.ui.navigator.resources,
+ org.eclipse.ui.navigator,
+ org.eclipse.jst.common.project.facet.core;bundle-version="1.4.400"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
