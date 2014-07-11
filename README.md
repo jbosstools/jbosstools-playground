@@ -1,7 +1,9 @@
 # Easier things for Eclipse IDE
 
-This repository contains some plugins adding nice functionality for day to day usage
-of Eclipse IDE. Namely:
+Install it from the follwoing p2 repo: http://mickaelistria.github.io/jbosstools-eclipse/repository/target/repository/
+
+
+This repository contains some plugins adding nice functionality for day to day usage of Eclipse IDE. Namely:
 
 ## Easy Open/Import of a project
 
