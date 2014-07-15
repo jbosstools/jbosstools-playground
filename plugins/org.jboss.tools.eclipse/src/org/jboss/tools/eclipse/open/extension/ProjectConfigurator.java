@@ -27,8 +27,14 @@ public interface ProjectConfigurator {
 	 */
 	public boolean canApplyFor(IProject project, IProgressMonitor monitor);
 	
+	/**
+	 * 
+	 * @return an (optional) wizard to configure the project
+	 */
 	public IWizard getConfigurationWizard();
 	
 	public void applyTo(IProject project, IProgressMonitor monitor);
+	
+	public String getLabel();
 	
 }

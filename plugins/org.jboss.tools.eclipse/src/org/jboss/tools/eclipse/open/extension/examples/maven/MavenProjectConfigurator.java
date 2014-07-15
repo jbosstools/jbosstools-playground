@@ -10,6 +10,7 @@ import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IProjectConfigurationManager;
 import org.eclipse.m2e.core.project.ResolverConfiguration;
 import org.jboss.tools.eclipse.Activator;
+import org.jboss.tools.eclipse.Messages;
 import org.jboss.tools.eclipse.open.extension.ProjectConfigurator;
 
 public class MavenProjectConfigurator implements ProjectConfigurator {
@@ -47,4 +48,8 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 		}
 	}
 
+	@Override
+	public String getLabel() {
+		return Messages.mavenConfiguratorLabel;
+	}
 }

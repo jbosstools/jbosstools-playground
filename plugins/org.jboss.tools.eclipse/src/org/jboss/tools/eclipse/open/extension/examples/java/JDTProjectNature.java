@@ -26,6 +26,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jface.wizard.IWizard;
 import org.jboss.tools.eclipse.Activator;
+import org.jboss.tools.eclipse.Messages;
 import org.jboss.tools.eclipse.open.extension.ProjectConfigurator;
 
 public class JDTProjectNature implements ProjectConfigurator {
@@ -166,6 +167,11 @@ public class JDTProjectNature implements ProjectConfigurator {
 					ex.getMessage(),
 					ex));
 		}
+	}
+	
+	@Override
+	public String getLabel() {
+		return Messages.jdtConfiguratorLabel;
 	}
 
 }

@@ -15,6 +15,15 @@ public class Messages extends NLS {
 	public static String anotherProjectWithSameNameExists_description;
 	public static String importProject;
 	
+	public static String jdtConfiguratorLabel;
+	public static String mavenConfiguratorLabel;
+	public static String featureConfiguratorLabel;
+	public static String jpaConfiguratorLabel;
+	public static String servletConfiguratorLabel;
+	public static String jaxrsConfiguratorLabel;
+	public static String bundleConfiguratorLabel;
+	public static String jsdtConfiguratorLabel;
+	
 	// --- Project Natures ---
 	public static String ProjectNaturesPage_label;
 	public static String ProjectNaturesPage_missingNatureText;
@@ -30,4 +39,5 @@ public class Messages extends NLS {
 	public static String ShowProjectHere;
 	public static String OpenProjectHere;
 	public static String ShowAsFolder;
+	
 }

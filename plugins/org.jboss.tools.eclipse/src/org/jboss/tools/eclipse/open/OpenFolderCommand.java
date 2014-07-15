@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -20,9 +22,13 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.undo.CreateProjectOperation;
 import org.jboss.tools.eclipse.Activator;
@@ -33,9 +39,13 @@ import org.xml.sax.InputSource;
 
 public class OpenFolderCommand extends AbstractHandler implements IHandler {
 
+	private Shell shell;
+	private boolean configurationCancelled; 
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		DirectoryDialog directoryDialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+		this.shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		DirectoryDialog directoryDialog = new DirectoryDialog(shell);
 		directoryDialog.setText(Messages.selectFolderToImport);
 		String res = directoryDialog.open();
 		if (res == null) {
@@ -46,7 +56,7 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		for (IProject project : workspaceRoot.getProjects()) {
 			if (res.equals(project.getLocation().toString())) {
-				MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				MessageDialog.openInformation(shell,
 						Messages.alreadyImportedAsProject_title,
 						NLS.bind(Messages.alreadyImportedAsProject_description, project.getName()));
 				return project;
@@ -69,12 +79,12 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 			IProject projectWithSameName = workspaceRoot.getProject(expectedName);
 			if (projectWithSameName.exists()) {
 				if (projectWithSameName.getLocation().toFile().equals(directory)) {
-					MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+					MessageDialog.openInformation(shell,
 							Messages.alreadyImportedAsProject_title,
 							NLS.bind(Messages.alreadyImportedAsProject_description, projectWithSameName.getName()));
 					return projectWithSameName;
 				} else {
-					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+					MessageDialog.openError(shell,
 							Messages.anotherProjectWithSameNameExists_title,
 							NLS.bind(Messages.anotherProjectWithSameNameExists_description, expectedName));
 					return null;
@@ -108,9 +118,24 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 						return status;
 					}
 					IProject newProject = (IProject) operation.getAffectedObjects()[0];
+					List<ProjectConfigurator> enabledConfigurators = new ArrayList<ProjectConfigurator>();
 					for (ProjectConfigurator configurator : ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators()) {
 						if (configurator.canApplyFor(newProject, monitor)) {
-							configurator.applyTo(newProject, monitor);
+							enabledConfigurators.add(configurator);
+						}
+					}
+					if (!enabledConfigurators.isEmpty()) {
+						final SelectConfiguratorsWizard wizard = new SelectConfiguratorsWizard(newProject, enabledConfigurators);
+						Display.getDefault().syncExec(new Runnable() {
+							@Override
+							public void run() {
+								configurationCancelled = new WizardDialog(shell, wizard).open() != Dialog.OK;
+							}
+						});
+						if (!configurationCancelled) {
+							for (ProjectConfigurator configurator : wizard.getSelectedConfigurators()) {
+								configurator.applyTo(newProject, monitor);
+							}
 						}
 					}
 					return Status.OK_STATUS;

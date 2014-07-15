@@ -29,6 +29,7 @@ import org.eclipse.wst.jsdt.core.IIncludePathEntry;
 import org.eclipse.wst.jsdt.core.IJavaScriptProject;
 import org.eclipse.wst.jsdt.core.JavaScriptCore;
 import org.jboss.tools.eclipse.Activator;
+import org.jboss.tools.eclipse.Messages;
 import org.jboss.tools.eclipse.open.extension.ProjectConfigurator;
 
 public class JSDTProjectNature implements ProjectConfigurator {
@@ -140,6 +141,11 @@ public class JSDTProjectNature implements ProjectConfigurator {
 					ex.getMessage(),
 					ex));
 		}
+	}
+	
+	@Override
+	public String getLabel() {
+		return Messages.jsdtConfiguratorLabel;
 	}
 
 }

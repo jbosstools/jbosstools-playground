@@ -24,6 +24,7 @@ import org.eclipse.pde.internal.core.natures.PDE;
 import org.eclipse.pde.internal.core.util.CoreUtility;
 import org.eclipse.pde.internal.ui.wizards.tools.ConvertProjectToPluginOperation;
 import org.jboss.tools.eclipse.Activator;
+import org.jboss.tools.eclipse.Messages;
 import org.jboss.tools.eclipse.open.extension.ProjectConfigurator;
 import org.osgi.framework.Constants;
 
@@ -105,6 +106,11 @@ public class BundleProjectConfigurator implements ProjectConfigurator {
 					ex.getMessage(),
 					ex));
 		}
+	}
+	
+	@Override
+	public String getLabel() {
+		return Messages.bundleConfiguratorLabel;
 	}
 
 }

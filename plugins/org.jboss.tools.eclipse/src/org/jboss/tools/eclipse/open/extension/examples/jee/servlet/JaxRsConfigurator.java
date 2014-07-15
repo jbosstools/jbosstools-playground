@@ -19,6 +19,7 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.eclipse.Activator;
+import org.jboss.tools.eclipse.Messages;
 import org.jboss.tools.eclipse.open.extension.ProjectConfigurator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -85,4 +86,8 @@ public class JaxRsConfigurator implements ProjectConfigurator {
 
 	}
 
+	@Override
+	public String getLabel() {
+		return Messages.jaxrsConfiguratorLabel;
+	}
 }
