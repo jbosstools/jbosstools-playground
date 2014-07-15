@@ -39,6 +39,6 @@ Reference Eclipse bug: https://bugs.eclipse.org/102527
 
 Everything is modular, a project has sub-projects. Also, you have to deal with working sets to organize your workspace, whereas just importing your repository would be nicer. After all, why can't you simply show projects in a hierarchic view in Eclipse.
 
-This plugin makes it possible. When a folder is a project, you can simply show it where it is, under its parent folder. It's only available on _Package Explorer_ and you can decide of whether to show project in regular way or nested just by right-clicking on the related folder.
+This plugin makes it possible. When a folder is a project, you can simply show it where it is, under its parent folder. It's only available on _Project Explorer_ and you can decide of whether to show project in regular way or nested just by right-clicking on the related folder.
 
 Reference Eclipse bug: https://bugs.eclipse.org/427768
