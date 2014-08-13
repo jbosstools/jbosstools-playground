@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Red Hat Inc.
+ * Copyright (c) 2014 Red Hat Inc., and others
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Mickael Istria (Red Hat Inc.) - initial API and implementation
+ *     Ivica Loncar - Projects open from inside parent inherit working sets
  ******************************************************************************/
 package org.jboss.tools.eclipse.nestedProjects;
 
@@ -15,11 +16,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.ui.IWorkingSet;
+import org.jboss.tools.eclipse.nestedProjects.internal.WorkingSets;
 
 /**
  * @since 3.3
@@ -39,6 +43,11 @@ public class NestedProjectManager {
 			projectToFolders.put(project, new HashSet<IFolder>());
 		}
 		projectToFolders.get(project).add(folder);
+
+		IContainer parent = folder.getParent();
+		IProject parentProject = parent.getProject();
+		Set<IWorkingSet> parentWorkingSets = WorkingSets.projectWorkingSets(parentProject);
+		WorkingSets.addToWorkingSets(project, parentWorkingSets);
 	}
 
 	/**
@@ -58,13 +67,12 @@ public class NestedProjectManager {
 			}
 		}, IResourceChangeEvent.PRE_CLOSE | IResourceChangeEvent.PRE_DELETE);
 	}
-	
+
 	public static void unregisterProjectShownInFolder(IFolder targetFolder) {
 		if (shownAsProject != null) {
 			shownAsProject.remove(targetFolder);
 		}
 	}
-
 
 	public static boolean isShownAsProject(IFolder folder) {
 		return shownAsProject != null && shownAsProject.containsKey(folder);
@@ -73,8 +81,5 @@ public class NestedProjectManager {
 	public static boolean isShownAsNested(IProject project) {
 		return shownAsProject != null && shownAsProject.containsValue(project);
 	}
-	
-	
-
 
 }
