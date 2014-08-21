@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -64,6 +65,9 @@ public class NestedProjectsContentProvider implements ITreeContentProvider {
 	}
 
 	public boolean hasChildren(Object element) {
+		if (element instanceof IProject) {
+			return ((IProject)element).isOpen();
+		}
 		return element instanceof IContainer;
 	}
 
