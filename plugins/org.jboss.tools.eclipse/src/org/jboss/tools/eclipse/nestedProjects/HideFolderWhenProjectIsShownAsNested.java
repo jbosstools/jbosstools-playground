@@ -26,7 +26,7 @@ import org.eclipse.ui.IWorkingSet;
  * @since 3.3
  *
  */
-public class NestedProjectsFilter extends ViewerFilter {
+public class HideFolderWhenProjectIsShownAsNested extends ViewerFilter {
 
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {

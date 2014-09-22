@@ -102,10 +102,10 @@
       </navigatorContent>
       <commonFilter
             activeByDefault="true"
-            class="org.jboss.tools.eclipse.nestedProjects.NestedProjectsFilter"
-            description="%filters.nestedProjects.description"
-            id="org.jboss.tools.eclipse.nestedProjects"
-            name="%filters.nestedProjects.name"
+            class="org.jboss.tools.eclipse.nestedProjects.HideFolderWhenProjectIsShownAsNested"
+            description="%filters.nestedProjects.HideFolderWhenProjectIsShownAsNested.description"
+            id="org.jboss.tools.eclipse.nestedProjects.HideFolderWhenProjectIsShownAsNested"
+            name="%filters.nestedProjects.HideFolderWhenProjectIsShownAsNested.name"
             visibleInUI="true">
       </commonFilter>
       <actionProvider
