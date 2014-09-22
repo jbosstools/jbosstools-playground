@@ -87,7 +87,7 @@
             contentProvider="org.jboss.tools.eclipse.nestedProjects.NestedProjectsContentProvider"
             id="org.jboss.tools.eclipse.nestedProjects"
             labelProvider="org.jboss.tools.eclipse.nestedProjects.NestedProjectsLabelProvider"
-            name="%filters.nestedProjects.name"
+            name="%nestedProjects.provider.name"
             priority="higher">
          <enablement>
             <adapt
@@ -103,9 +103,17 @@
       <commonFilter
             activeByDefault="true"
             class="org.jboss.tools.eclipse.nestedProjects.HideFolderWhenProjectIsShownAsNested"
-            description="%filters.nestedProjects.HideFolderWhenProjectIsShownAsNested.description"
+            description="%nestedProjects.filters.HideFolderWhenProjectIsShownAsNested.description"
             id="org.jboss.tools.eclipse.nestedProjects.HideFolderWhenProjectIsShownAsNested"
-            name="%filters.nestedProjects.HideFolderWhenProjectIsShownAsNested.name"
+            name="%nestedProjects.filters.HideFolderWhenProjectIsShownAsNested.name"
+            visibleInUI="true">
+      </commonFilter>
+      <commonFilter
+            activeByDefault="true"
+            class="org.jboss.tools.eclipse.nestedProjects.HideTopLevelProjectIfNested"
+            description="%nestedProjects.filters.HideTopLevelProjectIfNested.description"
+            id="org.jboss.tools.eclipse.nestedProjects.HideTopLevelProjectIfNested"
+            name="%nestedProjects.filters.HideTopLevelProjectIfNested.name"
             visibleInUI="true">
       </commonFilter>
       <actionProvider
@@ -128,12 +136,8 @@
       <viewerContentBinding
             viewerId="org.eclipse.ui.navigator.ProjectExplorer">
          <includes>
-            <actionExtension
-                  pattern="org.jboss.tools.eclipse.nestedProjects.NestedProjectActions">
-            </actionExtension>
-            <contentExtension
-                  pattern="org.jboss.tools.eclipse.nestedProjects">
-            </contentExtension>
+            <actionExtension pattern="org.jboss.tools.eclipse.nestedProjects.NestedProjectActions"/>
+            <contentExtension pattern="org.jboss.tools.eclipse.nestedProjects.*"/>
          </includes>
       </viewerContentBinding>
       <viewerActionBinding

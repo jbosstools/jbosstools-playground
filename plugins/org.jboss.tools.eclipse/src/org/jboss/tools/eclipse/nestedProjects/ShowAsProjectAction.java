@@ -13,6 +13,7 @@ package org.jboss.tools.eclipse.nestedProjects;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.PlatformUI;
@@ -29,10 +30,12 @@ public class ShowAsProjectAction extends Action {
 	private CommonViewer viewer;
 	private IProject project;
 	private IFolder targetFolder;
+	private Object parent;
 
 	public ShowAsProjectAction(IProject project, IFolder targetFolder, CommonViewer viewer) {
 		super(NLS.bind(Messages.ShowProjectHere, project.getName()));
 		this.project = project;
+		this.parent = ((ITreeContentProvider)viewer.getContentProvider()).getParent(project);
 		this.targetFolder = targetFolder;
 		this.viewer = viewer;
 		setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(SharedImages.IMG_OBJ_PROJECT));
@@ -40,7 +43,8 @@ public class ShowAsProjectAction extends Action {
 	
 	public void run() {
 		NestedProjectManager.registerProjectShownInFolder(targetFolder, project);
-		viewer.refresh();
+		viewer.refresh(parent);
+		viewer.refresh(targetFolder);
 		viewer.setSelection(new StructuredSelection(project));
 	}
 }
