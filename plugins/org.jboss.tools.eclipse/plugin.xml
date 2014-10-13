@@ -78,6 +78,42 @@
             class="org.jboss.tools.eclipse.open.extension.examples.jee.servlet.JaxRsConfigurator">
       </projectConfigurator>
    </extension>
+   <!-- Drop folders -->
+   <extension point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            id="org.jboss.tools.eclipse.open.dropFolders"
+            name="%openDirectory"
+            priority="higher">
+         <enablement>
+         	<or>
+         	   <adapt type="org.eclipse.core.resources.IWorkspaceRoot"/>
+         	   <adapt type="org.eclipse.ui.IWorkingSet"/>
+         	</or>
+         </enablement>
+         <possibleChildren>
+         	<!-- Refine to Folder DND type -->
+            <instanceof value="java.lang.Object"/>
+         </possibleChildren>
+         <dropAssistant id="org.jboss.tools.eclipse.open.dropFolders.assistant" class="org.jboss.tools.eclipse.open.OpenFolderDropAdapterAssistant">
+            <possibleDropTargets>
+	            <or>
+	         	   <adapt type="org.eclipse.core.resources.IWorkspaceRoot"/>
+	         	   <adapt type="org.eclipse.ui.IWorkingSet"/>
+	         	</or>
+            </possibleDropTargets>
+         </dropAssistant>
+      </navigatorContent>
+   </extension>
+   <extension point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension pattern="org.jboss.tools.eclipse.open.*"/>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+   
+   
    
    <!-- Nested Projects -->
    <extension

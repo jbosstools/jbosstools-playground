@@ -11,6 +11,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
+import org.eclipse.core.commands.operations.ICompositeOperation;
 import org.eclipse.core.internal.resources.ProjectDescription;
 import org.eclipse.core.internal.resources.ProjectDescriptionReader;
 import org.eclipse.core.resources.IProject;
@@ -29,6 +30,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.undo.CreateProjectOperation;
 import org.jboss.tools.eclipse.Activator;
@@ -52,10 +54,23 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 			return null;
 		}
 		File directory = new File(res);
+		try {
+			return openFolderAsProject(directory);
+		} catch (IOException ex) {
+			throw new ExecutionException(ex.getMessage(), ex);
+		}
+	}
+
+	/**
+	 * @param directory
+	 * @return
+	 * @throws ExecutionException
+	 */
+	public IProject openFolderAsProject(File directory, IWorkingSet ... workingSets) throws IOException {
 		String currentName = directory.getName();
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		for (IProject project : workspaceRoot.getProjects()) {
-			if (res.equals(project.getLocation().toString())) {
+			if (project.getLocation().toFile().equals(directory)) {
 				MessageDialog.openInformation(shell,
 						Messages.alreadyImportedAsProject_title,
 						NLS.bind(Messages.alreadyImportedAsProject_description, project.getName()));
@@ -67,14 +82,10 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 		if (expectedProjectDescriptionFile.exists()) {
 			InputStream stream = null;
 			IProjectDescription projectDescription = null;
-			try {
-				stream = new FileInputStream(expectedProjectDescriptionFile);
-				InputSource source = new InputSource(stream);
-				projectDescription = new ProjectDescriptionReader().read(source);
-				stream.close();
-			} catch (IOException ex) {
-				throw new ExecutionException(ex.getMessage(), ex);
-			}
+			stream = new FileInputStream(expectedProjectDescriptionFile);
+			InputSource source = new InputSource(stream);
+			projectDescription = new ProjectDescriptionReader().read(source);
+			stream.close();
 			String expectedName = projectDescription.getName();
 			IProject projectWithSameName = workspaceRoot.getProject(expectedName);
 			if (projectWithSameName.exists()) {
@@ -92,7 +103,7 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 			} else {
 				projectDescription.setLocation(new Path(directory.getAbsolutePath()));
 				CreateProjectOperation operation = new CreateProjectOperation(projectDescription, NLS.bind(Messages.importProject, currentName));
-				return performProjectCreationAndReturn(operation, directory.getName(), projectDescription.getName());
+				return performProjectCreationAndReturn(operation, directory.getName(), projectDescription.getName(), workingSets);
 			}
 		}
 		
@@ -104,10 +115,10 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 		desc.setLocation(new Path(directory.getAbsolutePath()));
 		// open Configuration wizard
 		CreateProjectOperation operation = new CreateProjectOperation(desc, NLS.bind(Messages.importProject, currentName));
-		return performProjectCreationAndReturn(operation, directory.getName(), currentName);
+		return performProjectCreationAndReturn(operation, directory.getName(), currentName, workingSets);
 	}
 	
-	public IProject performProjectCreationAndReturn(final CreateProjectOperation operation, String directory, String projectName) {
+	public IProject performProjectCreationAndReturn(final CreateProjectOperation operation, String directory, String projectName, final IWorkingSet ... workingSets) {
 		Job job = new Job("Opening directory: " + directory + " as " + projectName) {
 			
 			@Override
@@ -118,6 +129,13 @@ public class OpenFolderCommand extends AbstractHandler implements IHandler {
 						return status;
 					}
 					IProject newProject = (IProject) operation.getAffectedObjects()[0];
+					// Note: this is not in an operation because changing working sets doesn't seem to require
+					// undo/redo and because Workbench is good enough to unassign a project in case its creation
+					// is reverted.
+					// In case this cause issue in a future, a solution would be to make it part of a composite
+					// operation together with the CreateProjectOperation.
+					PlatformUI.getWorkbench().getWorkingSetManager().addToWorkingSets(newProject, workingSets);
+					
 					List<ProjectConfigurator> enabledConfigurators = new ArrayList<ProjectConfigurator>();
 					for (ProjectConfigurator configurator : ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators()) {
 						if (configurator.canApplyFor(newProject, monitor)) {
