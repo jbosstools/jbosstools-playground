@@ -7,7 +7,7 @@ This repository contains some plugins adding nice functionality for day to day u
 
 ## Easy Open/Import of a project
 
-Aren't you sick of this messy "Import" wizard you see in Eclipse? Can't the IDE figure out what kind of project you're importing by itself? Yes, it does. This plugins include a new *File > Open Project/Folder* menu which will just ask you for a directory and will do its best to figure out what kind of project it is and run the most relevant import tricks.
+Aren't you sick of this messy "Import" wizard you see in Eclipse? Can't the IDE figure out what kind of project you're importing by itself? Yes, it does. This plugins include a new *File > Open Project/Folder* menu which will just ask you for a directory and will do its best to figure out what kind of project it is and run the most relevant import tricks. It also supports ability to use the same Import mechanics, but simply by *Drag and dropping* a folder in the Project Explorer (in a working set or on the workspace root).
 
 Currently supported projects for easy import are:
 * Eclipse projects: directories that are already Eclipse projects will be imported "as it" and will reuse existing configuration
