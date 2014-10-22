@@ -4,12 +4,37 @@
 	To install these features, point Eclipse at this site.
 	</description>
 
-	<category-def name="JBoss Tools Eclipse" label="JBoss Tools Eclipse">
-		<description>JBoss Eclipse contains some generic addition for project management.</description>
+	<category-def name="JBoss Tools - Eclipse Candies" label="JBoss Tools - Eclipse Candies">
+		<description>Generic addition for project management in Eclipse.</description>
 	</category-def>
 
 
-	<bundle id="org.jboss.tools.eclipse" version="0.0.0">
-		<category name="JBoss Tools Eclipse"/>
+	<bundle id="org.jboss.tools.playground.naturist" version="0.0.0">
+		<category name="JBoss Tools - Eclipse Candies"/>
 	</bundle>
+	<bundle id="org.jboss.tools.playground.nestor" version="0.0.0">
+		<category name="JBoss Tools - Eclipse Candies"/>
+	</bundle>
+	<bundle id="org.jboss.tools.playground.easymport" version="0.0.0">
+		<category name="JBoss Tools - Eclipse Candies"/>
+	</bundle>
+	<bundle id="org.jboss.tools.playground.easymport.java" version="0.0.0">
+		<category name="JBoss Tools - Eclipse Candies"/>
+	</bundle>
+	<bundle id="org.jboss.tools.playground.easymport.jee" version="0.0.0">
+		<category name="JBoss Tools - Eclipse Candies"/>
+	</bundle>
+	<bundle id="org.jboss.tools.playground.easymport.maven" version="0.0.0">
+		<category name="JBoss Tools - Eclipse Candies"/>
+	</bundle>
+	<bundle id="org.jboss.tools.playground.easymport.pde" version="0.0.0">
+		<category name="JBoss Tools - Eclipse Candies"/>
+	</bundle>
+	<bundle id="org.jboss.tools.playground.easymport.javascript" version="0.0.0">
+		<category name="JBoss Tools - Eclipse Candies"/>
+	</bundle>
+	<bundle id="org.jboss.tools.playground.easymport.cordova" version="0.0.0">
+		<category name="JBoss Tools - Eclipse Candies"/>
+	</bundle>
+	<bundle id="org.jboss.tools.eclipse" version="0.0.0"/>
 </site>

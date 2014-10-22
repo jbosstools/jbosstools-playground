@@ -5,17 +5,18 @@
 	<parent>
 		<groupId>org.jboss.tools</groupId>
 		<artifactId>parent</artifactId>
-		<version>4.2.0.CR1-SNAPSHOT</version>
+		<version>4.3.0.Alpha1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools</groupId>
-	<artifactId>eclipse</artifactId>
-	<version>4.2.0-SNAPSHOT</version>
+	<artifactId>playground</artifactId>
+	<version>4.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
 		<tycho.scmUrl>scm:git:https://github.com/mickaelistria/jbosstools-eclipse.git</tycho.scmUrl>
 	</properties>
 	<modules>
 		<module>plugins</module>
+		<module>features</module>
 		<module>repository</module>
 	</modules>
 </project>

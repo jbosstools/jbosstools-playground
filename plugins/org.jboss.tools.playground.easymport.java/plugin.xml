@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.jboss.tools.playground.easymport.projectConfigurators">
+      <projectConfigurator
+            class="org.jboss.tools.playground.easymport.java.JDTProjectNature">
+      </projectConfigurator>
+   </extension>
+</plugin>

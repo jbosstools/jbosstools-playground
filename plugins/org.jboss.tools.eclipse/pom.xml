@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.jboss.tools.eclipse</groupId>
+		<groupId>org.jboss.tools.playground</groupId>
 		<artifactId>plugins</artifactId>
-		<version>4.2.0-SNAPSHOT</version>
+		<version>4.3.0-SNAPSHOT</version>
 	</parent>
-	<groupId>org.jboss.tools.eclipse.plugins</groupId>
+	<groupId>org.jboss.tools.playground.plugins</groupId>
 	<artifactId>org.jboss.tools.eclipse</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>

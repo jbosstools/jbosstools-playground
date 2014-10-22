@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.ui.propertyPages">
+   		<page
+            class="org.jboss.tools.playground.naturist.ProjectNaturesPage"
+            id="org.eclipse.ui.propertypages.project.natures"
+            name="%PropertyPages.project.natures"
+            >
+         <filter
+               name="open"
+               value="true">
+         </filter>
+         <enabledWhen>
+            <adapt type="org.eclipse.core.resources.IProject"/>
+         </enabledWhen>
+      </page>
+   </extension>
+</plugin>

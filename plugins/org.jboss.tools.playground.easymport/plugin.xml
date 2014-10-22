@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="projectConfigurators" name="projectConfigurators" schema="schema/projectConfigurators.exsd"/>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:file?after=new.ext">
+         <command
+               commandId="org.jboss.tools.playground.easymport.openDirectory"
+               id="org.jboss.tools.playground.easymport.openDirectory.menu"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="org.jboss.tools.playground.easymport.openDirectory"
+            name="%openDirectory">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.jboss.tools.playground.easymport.OpenFolderCommand"
+            commandId="org.jboss.tools.playground.easymport.openDirectory">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="org.jboss.tools.playground.easymport.openDirectory"
+            icon="pics/prj_obj.gif">
+      </image>
+   </extension>
+   
+   <extension
+         point="org.jboss.tools.playground.easymport.projectConfigurators">
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.java.JDTProjectNature">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.maven.MavenProjectConfigurator">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.pde.bundle.BundleProjectConfigurator">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.pde.feature.FeatureProjectConfigurator">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.javascript.JSDTProjectNature">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.jee.servlet.ServletProjectConfigurator">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.jee.servlet.JPAProjectConfigurator">
+      </projectConfigurator>
+      <projectConfigurator
+            class="org.jboss.tools.eclipse.open.extension.examples.jee.servlet.JaxRsConfigurator">
+      </projectConfigurator>
+   </extension>
+   <!-- Drop folders -->
+   <extension point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            id="org.jboss.tools.eclipse.open.dropFolders"
+            name="%openDirectory"
+            priority="higher">
+         <enablement>
+         	<or>
+         	   <adapt type="org.eclipse.core.resources.IWorkspaceRoot"/>
+         	   <adapt type="org.eclipse.ui.IWorkingSet"/>
+         	</or>
+         </enablement>
+         <possibleChildren>
+         	<!-- Refine to Folder DND type -->
+            <instanceof value="java.lang.Object"/>
+         </possibleChildren>
+         <dropAssistant id="org.jboss.tools.playground.easymport.dropFolders.assistant" class="org.jboss.tools.playground.easymport.OpenFolderDropAdapterAssistant">
+            <possibleDropTargets>
+	            <or>
+	         	   <adapt type="org.eclipse.core.resources.IWorkspaceRoot"/>
+	         	   <adapt type="org.eclipse.ui.IWorkingSet"/>
+	         	</or>
+            </possibleDropTargets>
+         </dropAssistant>
+      </navigatorContent>
+   </extension>
+   <extension point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension pattern="org.jboss.tools.playground.easymport.*"/>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+   
+</plugin>

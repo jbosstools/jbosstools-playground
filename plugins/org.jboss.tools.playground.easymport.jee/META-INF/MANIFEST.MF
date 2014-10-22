@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Easymport :: Java EE support
+Bundle-SymbolicName: org.jboss.tools.playground.easymport.jee;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: JBoss, by Red Hat
+Require-Bundle: org.jboss.tools.playground.easymport,
+ org.jboss.tools.playground.easymport.java,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.jdt.core,
+ org.eclipse.wst.web,
+ org.eclipse.wst.common.project.facet.core,
+ org.eclipse.jst.jee,
+ org.eclipse.jst.jee.ejb,
+ org.eclipse.jst.jee.web,
+ org.eclipse.jst.j2ee,
+ org.eclipse.jst.j2ee.core,
+ org.eclipse.jst.j2ee.ejb,
+ org.eclipse.jst.j2ee.web,
+ org.eclipse.jst.j2ee.webservice,
+ org.eclipse.wst.common.frameworks,
+ org.eclipse.ui.navigator.resources,
+ org.eclipse.ui.navigator,
+ org.eclipse.jst.common.project.facet.core;bundle-version="1.4.400"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: org.jboss.tools.playground.easymport.java
+Bundle-Activator: org.jboss.tools.playground.easymport.jee.Activator
