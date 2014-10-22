@@ -5,7 +5,7 @@ Install it from the follwoing p2 repo: http://mickaelistria.github.io/jbosstools
 
 This repository contains some plugins adding nice functionality for day to day usage of Eclipse IDE. Namely:
 
-## Easy Open/Import of a project
+## Easymport: Easy and smart Open/Import of a project
 
 Aren't you sick of this messy "Import" wizard you see in Eclipse? Can't the IDE figure out what kind of project you're importing by itself? Yes, it does. This plugins include a new *File > Open Project/Folder* menu which will just ask you for a directory and will do its best to figure out what kind of project it is and run the most relevant import tricks. It also supports ability to use the same Import mechanics, but simply by *Drag and dropping* a folder in the Project Explorer (in a working set or on the workspace root).
 
@@ -29,13 +29,13 @@ Of course, this may not always give you the perfect result. It is recommended af
 
 Reference Eclipse bug: http://bugs.eclipse.org/421930
 
-## Edit project natures
+## Naturist: Edit project natures
 
 There are cases where you really want to hack your project, and are ready to take all the risks that go with it. So these plugins add a Project Property page that allow to add or remove project natures. Beware that this is a risky operation, so do it only when you're sure of what you're doing. Usually, enabling a nature is only 1 step in the configuration, so after you enabled a new nature, you'll most likely want to open (again) the Project Settings page and tweak the new pages as desired.
 
 Reference Eclipse bug: https://bugs.eclipse.org/102527
 
-## View Nested Projects
+## Nestor: View Nested Projects
 
 Everything is modular, a project has sub-projects. Also, you have to deal with working sets to organize your workspace, whereas just importing your repository would be nicer. After all, why can't you simply show projects in a hierarchic view in Eclipse.
 
