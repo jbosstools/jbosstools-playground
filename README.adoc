@@ -1,0 +1,86 @@
+= JBoss Tools Playground
+
+This github repository contains playful experiments in trying to make Eclipse better.
+
+The intent is not to have a perfect, always updatable feature set but to try and explore
+ideas and implementations while make it easy for everyone to try it out.
+
+== To install
+
+For now you need to manually clone and build:
+
+```
+$ git clone https://github.com/jbosstools/jbosstools-playground
+$ cd jbosstools-playground
+$ mvn clean verify
+```
+
+This will build the plugins and put a P2 repository/update-site into `site/target/repository`
+which you can use to install from inside Eclipse.
+
+== Plugins
+
+=== Easymport: Easy and smart Open/Import of a project
+
+Aren't you sick of this messy "Import" wizard you see in Eclipse? Can't
+the IDE figure out what kind of project you're importing by itself? Yes,
+it does. This plugins include a new _File > Open Project/Folder_ menu
+which will just ask you for a directory and will do its best to figure
+out what kind of project it is and run the most relevant import tricks.
+It also supports ability to use the same Import mechanics, but simply by
+_Drag and dropping_ a folder in the Project Explorer (in a working set
+or on the workspace root).
+
+Currently supported projects for easy import are: 
+
+Eclipse projects:: directories that are already Eclipse projects will be imported "as it"
+and will reuse existing configuration
+Java projects:: will setup nature, detect and configure source folders 
+JavaScript projects:: will setup nature, detect source and configure source folders 
+Maven projects:: will import project as Maven project, and delegate its configuration to m2e according to the content of the pom.xml file 
+Java EE Projects:: will enable the WebTools nature, and 
+ * Web projects will enable Servlet facet 
+ * JPA projects will enable JPA facet 
+ * Jax-RS projects will enable Jax-rs facet 
+PDE projects: 
+ * Plugin project: will enable Plug-in Nature 
+ * Feature project: will enable Feature Nature
+Plain folders:: will be imported as new Eclipse projects, without additional configuration
+
+This contains an extension point (link:plugins/org.jboss.tools.playground.easymport/src/org/jboss/tools/playground/easymport/extension/ProjectConfigurator.java[ProjectConfigurator.java]), so if you want to add support for
+other types of projects, it's just a matter of adding an extension and
+implementing a class.
+
+Of course, this may not always give you the perfect result. It is
+recommended after such an import to have a look at your project
+properties and see whether there are some things that need more specific
+configuration.
+
+Reference Eclipse bug: http://bugs.eclipse.org/421930
+
+=== Nestor: View Nested Projects
+
+Everything is modular, a project has sub-projects. Also, you have to
+deal with working sets to organize your workspace, whereas just
+importing your repository would be nicer. After all, why can't you
+simply show projects in a hierarchic view in Eclipse.
+
+This plugin makes it possible. When a folder is a project, you can
+simply show it where it is, under its parent folder. It's only available
+on _Project Explorer_ and you can decide of whether to show project in
+regular way or nested just by right-clicking on the related folder.
+
+Reference Eclipse bug: https://bugs.eclipse.org/427768
+
+=== Naturist: Edit project natures
+
+There are cases where you really want to hack your project, and are
+ready to take all the risks that go with it. So these plugins add a
+Project Property page that allow to add or remove project natures.
+Beware that this is a risky operation, so do it only when you're sure of
+what you're doing. Usually, enabling a nature is only 1 step in the
+configuration, so after you enabled a new nature, you'll most likely
+want to open (again) the Project Settings page and tweak the new pages
+as desired.
+
+Reference Eclipse bug: https://bugs.eclipse.org/102527
