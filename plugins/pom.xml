@@ -21,6 +21,7 @@
 		<module>org.jboss.tools.playground.easymport.pde</module>
 		<module>org.jboss.tools.playground.easymport.javascript</module>
 		<module>org.jboss.tools.playground.easymport.cordova</module>
+		<module>org.jboss.tools.playground.autosave</module>
 		<module>org.jboss.tools.eclipse</module>
 	</modules>
 </project>

@@ -8,7 +8,6 @@
 		<description>Generic addition for project management in Eclipse.</description>
 	</category-def>
 
-
 	<bundle id="org.jboss.tools.playground.naturist" version="0.0.0">
 		<category name="JBoss Tools - Eclipse Candies"/>
 	</bundle>
@@ -34,6 +33,9 @@
 		<category name="JBoss Tools - Eclipse Candies"/>
 	</bundle>
 	<bundle id="org.jboss.tools.playground.easymport.cordova" version="0.0.0">
+		<category name="JBoss Tools - Eclipse Candies"/>
+	</bundle>
+	<bundle id="org.jboss.tools.playground.autosave" version="0.0.0">
 		<category name="JBoss Tools - Eclipse Candies"/>
 	</bundle>
 	<bundle id="org.jboss.tools.eclipse" version="0.0.0"/>
