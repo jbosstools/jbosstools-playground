@@ -1,10 +1,6 @@
 package org.jboss.tools.playground.easymport.extension;
 
-import java.util.Map;
-import java.util.SortedSet;
-
 import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.internal.dialogs.ImportExportWizard;
 
 public class RecommandationWizard extends ImportExportWizard {
@@ -13,7 +9,6 @@ public class RecommandationWizard extends ImportExportWizard {
 		super(pageId);
 	}
 
-	private Map<ProjectConfigurator, SortedSet<IWizardPage>> pagesByConfigurator;
 	
 	@Override
 	public void addPages() {

@@ -1,7 +1,6 @@
 package org.jboss.tools.playground.easymport.extension;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.wizard.IWizard;
 

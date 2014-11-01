@@ -17,10 +17,10 @@
       <menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
          <toolbar
-               id="org.jboss.tools.playground.autosave.autoSafeToolbar">
+               id="org.jboss.tools.playground.autosave.autoSaveToolbar">
             <command	
                   commandId="org.jboss.tools.playground.autosave.command"
-                  icon="pics/auto_safe.png"
+                  icon="pics/auto_save.png"
                   tooltip="%autosave.tooltip"
                   style="toggle"
                   label="Bold"

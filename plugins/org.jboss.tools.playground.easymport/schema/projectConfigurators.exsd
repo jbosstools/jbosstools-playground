@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.jboss.tools.eclipse.extension.ProjectConfigurator"/>
+                  <meta.attribute kind="java" basedOn=":org.jboss.tools.easymport.extension.ProjectConfigurator"/>
                </appinfo>
             </annotation>
          </attribute>

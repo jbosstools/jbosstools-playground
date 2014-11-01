@@ -20,7 +20,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE.SharedImages;
-import org.eclipse.ui.internal.navigator.resources.plugin.WorkbenchNavigatorMessages;
 import org.eclipse.ui.internal.navigator.resources.plugin.WorkbenchNavigatorPlugin;
 import org.eclipse.ui.navigator.CommonViewer;
 

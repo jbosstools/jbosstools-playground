@@ -27,10 +27,10 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	@Override
 	public void applyTo(IProject project, IProgressMonitor monitor) {
 		// copied from org.eclipse.m2e.core.ui.internal.actions.EnableNatureAction
-		final MavenPlugin plugin = MavenPlugin.getDefault();
+		
 		ResolverConfiguration configuration = new ResolverConfiguration();
         configuration.setResolveWorkspaceProjects(true);
-        IProjectConfigurationManager configurationManager = plugin.getProjectConfigurationManager();
+        IProjectConfigurationManager configurationManager = MavenPlugin.getProjectConfigurationManager();
         try {
 	        if(!project.hasNature(IMavenConstants.NATURE_ID)) {
 	        	configurationManager.enableMavenNature(project, configuration, monitor);
