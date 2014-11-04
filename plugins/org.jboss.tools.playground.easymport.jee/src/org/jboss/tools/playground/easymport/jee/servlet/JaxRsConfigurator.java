@@ -1,9 +1,9 @@
 package org.jboss.tools.playground.easymport.jee.servlet;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.InputStreamReader;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -21,10 +21,6 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.playground.easymport.extension.ProjectConfigurator;
 import org.jboss.tools.playground.easymport.jee.Activator;
 import org.jboss.tools.playground.easymport.jee.Messages;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class JaxRsConfigurator implements ProjectConfigurator {
 
@@ -33,30 +29,31 @@ public class JaxRsConfigurator implements ProjectConfigurator {
 		if (!new ServletProjectConfigurator().canApplyFor(project, monitor)) {
 			return false;
 		}
-		IFile webXml = project.getFile("web.xml");
-		DocumentBuilderFactory domBuilderFactory = DocumentBuilderFactory.newInstance();
-		try {
-			DocumentBuilder domBuilder = domBuilderFactory.newDocumentBuilder();
-			InputStream webXmlContent = webXml.getContents();
-			Document webXmlDOM = domBuilder.parse(webXmlContent);
-			webXmlContent.close();
-			NodeList initParamNodes = ((Element) (((Element)webXmlDOM.getElementsByTagName("web-app").item(0)).getElementsByTagName("servlet").item(0))).getElementsByTagName("init-param");
-			for (int i = 0; i < initParamNodes.getLength(); i++) {
-				Element initParamElement = (Element) initParamNodes.item(i);
-				NodeList paramNameList = initParamElement.getElementsByTagName("param-name");
-				if (paramNameList.getLength() > 0) {
-					for (int j = 0; j < paramNameList.getLength(); j++) {
-						Node paramName = paramNameList.item(j);
-						if (paramName.getTextContent().equals("javax.ws.rs.Application")) {
-							return true;
-						}
-					}
-				}
+		RecursiveFileFinder webXMLFinder = new RecursiveFileFinder("web.xml");
+		InputStream content = null;
+		BufferedReader reader = null;
+		try { 
+			project.accept(webXMLFinder);
+			IFile webXml = webXMLFinder.getFile();
+			content = webXml.getContents();
+			reader = new BufferedReader(new InputStreamReader(content, webXml.getCharset()));
+			boolean found = false;
+			String line = null;
+			while (!found && (line = reader.readLine()) != null) {
+				found |= line.contains("javax.ws.rs.Application");
+				found |= line.contains("javax.ws.rs.core.Application");
 			}
+			return found;
 		} catch (Exception ex) {
 			return false;
+		} finally {
+			try {
+				reader.close();
+				content.close();
+			} catch (IOException ex) {
+				// annoying exception handling 
+			}
 		}
-		return false;
 	}
 
 	@Override

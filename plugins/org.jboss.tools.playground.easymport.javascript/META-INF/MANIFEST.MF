@@ -14,3 +14,4 @@ Require-Bundle: org.jboss.tools.playground.easymport,
  org.eclipse.ui.navigator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.jboss.tools.playground.easymport.javascript.Activator

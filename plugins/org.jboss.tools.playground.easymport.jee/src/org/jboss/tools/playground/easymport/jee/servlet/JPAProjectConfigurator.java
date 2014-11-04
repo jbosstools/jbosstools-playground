@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -26,7 +27,13 @@ public class JPAProjectConfigurator implements ProjectConfigurator {
 
 	@Override
 	public boolean canApplyFor(IProject project, IProgressMonitor monitor) {
-		return project.getFile("persistence.xml").exists();
+		try {
+			RecursiveFileFinder finder = new RecursiveFileFinder("persistence.xml");
+			project.accept(finder);
+			return finder.getFile() != null;
+		} catch (CoreException ex) {
+			return false;
+		}
 	}
 
 	@Override
@@ -44,7 +51,9 @@ public class JPAProjectConfigurator implements ProjectConfigurator {
 			if (!facetedProject.hasProjectFacet(JPA_FACET)) {
 				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-				InputStream webXmlStream = project.getFile("persistence.xml").getContents();
+				RecursiveFileFinder finder = new RecursiveFileFinder("persistence.xml");
+				project.accept(finder);
+				InputStream webXmlStream = finder.getFile().getContents();
 				Document doc = dBuilder.parse(webXmlStream);
 				webXmlStream.close();
 	

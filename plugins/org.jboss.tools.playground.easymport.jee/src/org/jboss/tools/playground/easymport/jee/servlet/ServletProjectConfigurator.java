@@ -6,9 +6,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
 import org.eclipse.jst.j2ee.web.project.facet.WebFacetInstallDataModelProvider;
@@ -27,7 +29,13 @@ public class ServletProjectConfigurator implements ProjectConfigurator {
 
 	@Override
 	public boolean canApplyFor(IProject project, IProgressMonitor monitor) {
-		return project.getFile("web.xml").exists();
+		try {
+			RecursiveFileFinder finder = new RecursiveFileFinder("web.xml");
+			project.accept(finder);
+			return finder.getFile() != null;
+		} catch (CoreException ex) {
+			return false;
+		}
 	}
 
 	@Override
@@ -45,13 +53,19 @@ public class ServletProjectConfigurator implements ProjectConfigurator {
 			if (!facetedProject.hasProjectFacet(WEB_FACET)) {
 				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-				InputStream webXmlStream = project.getFile("web.xml").getContents();
+				RecursiveFileFinder finder = new RecursiveFileFinder("web.xml");
+				project.accept(finder);
+				InputStream webXmlStream = finder.getFile().getContents();
 				Document doc = dBuilder.parse(webXmlStream);
 				webXmlStream.close();
 	
 				IDataModel aFacetInstallDataModel = DataModelFactory.createDataModel(new WebFacetInstallDataModelProvider());
 				aFacetInstallDataModel.setBooleanProperty(IJ2EEModuleFacetInstallDataModelProperties.ADD_TO_EAR, false);
 				String version = ((Element)doc.getElementsByTagName("web-app").item(0)).getAttribute("version");
+				if (version.isEmpty()) {
+					// TODO decide this according to JRE version : Java6 => servlet 2.5; Java 7 => servlet 3.1
+					version = "2.5";
+				}
 				facetedProject.installProjectFacet(WEB_FACET.getVersion(version), aFacetInstallDataModel, monitor);
 			}
 		} catch (Exception ex) {
