@@ -46,17 +46,7 @@ public class JSDTProjectNature implements ProjectConfigurator {
 		@Override
 		public boolean visit(final IResource resource) throws CoreException {
 			if (resource.getType() == IResource.FILE && resource.getName().endsWith(FILE_EXTENSION)) {
-				IContainer container = resource.getParent();
-				IResource aParentResource = container;
-				boolean anotherContainerAlreadyIncludesIt = false;
-				while (!anotherContainerAlreadyIncludesIt && aParentResource.getType() != IResource.ROOT) {
-					anotherContainerAlreadyIncludesIt = this.mostLikelySourceFolders.contains(aParentResource);
-					aParentResource = aParentResource.getParent();
-				}
-				if (anotherContainerAlreadyIncludesIt) {
-					return false;
-				}
-				this.mostLikelySourceFolders.add(container);
+				this.mostLikelySourceFolders.add(resource.getParent());
 			} else {
 				return true;
 			}
@@ -65,7 +55,24 @@ public class JSDTProjectNature implements ProjectConfigurator {
 		}
 		
 		public Set<IContainer> getSourceFolders() {
-			return this.mostLikelySourceFolders;
+			Set<IContainer> res = new HashSet<IContainer>();
+			res.addAll(this.mostLikelySourceFolders);
+			for (IContainer item : this.mostLikelySourceFolders) {
+				boolean alreadyContainsAParent = false;
+				Set<IContainer> childrenOfItem = new HashSet<IContainer>();
+				for (IContainer other : res) {
+					if (item.getFullPath().isPrefixOf(other.getFullPath())) {
+						childrenOfItem.add(other);
+					} else if (other.getFullPath().isPrefixOf(item.getFullPath())) {
+						alreadyContainsAParent = true;
+					}
+				}
+				res.removeAll(childrenOfItem);
+				if (!alreadyContainsAParent) {
+					res.add(item);
+				}
+			}
+			return res;
 		}
 	}
 
