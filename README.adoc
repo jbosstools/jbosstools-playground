@@ -5,20 +5,12 @@ This github repository contains playful experiments in trying to make Eclipse be
 The intent is not to have a perfect, always updatable feature set but to try and explore
 ideas and implementations while make it easy for everyone to try it out.
 
-== To install
+== Installation
 
-For now you need to manually clone and build:
+Install from the following p2 repository http://download.jboss.org/jbosstools/builds/staging/jbosstools-playground_master/all/repo/ .
+If you don't know how to do that, please read following documentation http://help.eclipse.org/luna/index.jsp?topic=/org.eclipse.platform.doc.user/tasks/tasks-127.htm .
 
-```
-$ git clone https://github.com/jbosstools/jbosstools-playground
-$ cd jbosstools-playground
-$ mvn clean verify
-```
-
-This will build the plugins and put a P2 repository/update-site into `site/target/repository`
-which you can use to install from inside Eclipse.
-
-== Plugins
+== Contents
 
 === Easymport: Easy and smart Open/Import of a project
 
