@@ -37,37 +37,63 @@
             name="%nestedProjects.filters.HideTopLevelProjectIfNested.name"
             visibleInUI="true">
       </commonFilter>
-      <actionProvider
-            class="org.jboss.tools.playground.nestor.NestedProjectActionProvider"
-            id="org.jboss.tools.playground.nestor.NestedProjectActions">
-         <enablement>
-            <or>
-               <adapt
-                     type="org.eclipse.core.resources.IFolder">
-               </adapt>
-               <adapt
-                     type="org.eclipse.core.resources.IProject">
-               </adapt>
-            </or>
-         </enablement>
-      </actionProvider>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
       <viewerContentBinding
             viewerId="org.eclipse.ui.navigator.ProjectExplorer">
          <includes>
-            <actionExtension pattern="org.jboss.tools.playground.nestor.NestedProjectActions"/>
             <contentExtension pattern="org.jboss.tools.playground.nestor.*"/>
          </includes>
       </viewerContentBinding>
-      <viewerActionBinding
-            viewerId="org.eclipse.ui.navigator.ProjectExplorer">
-         <includes>
-            <actionExtension
-                  pattern="org.jboss.tools.playground.nestor.NestedProjectActions">
-            </actionExtension>
-         </includes>
-      </viewerActionBinding>
    </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.navigator.ProjectExplorer">
+         <menu
+               label="%nestedProjects.menu.projectPresentation">
+            <command
+                  commandId="org.jboss.tools.playground.nestor.changeProjectPresentation"
+                  label="%nestedProjects.menu.projectPresentation.flat"
+                  style="radio">
+               <parameter
+                     name="org.jboss.tools.playground.nestor.projectPresentation.nest"
+                     value="false">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.jboss.tools.playground.nestor.changeProjectPresentation"
+                  label="%nestedProjects.menu.projectPresentation.hierarchical"
+                  style="radio">
+               <parameter
+                     name="org.jboss.tools.playground.nestor.projectPresentation.nest"
+                     value="true">
+               </parameter>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.jboss.tools.playground.nestor.internal.ProjectPresentationHandler"
+            id="org.jboss.tools.playground.nestor.changeProjectPresentation"
+            name="%nestedProjects.menu.projectPresentation">
+         <commandParameter
+               id="org.jboss.tools.playground.nestor.projectPresentation.nest"
+               name="%nestedProjects.menu.projectPresentation.hierarchical"
+               optional="true">
+         </commandParameter>
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.jboss.tools.playground.nestor.internal.ProjectPresentationHandler"
+            commandId="org.jboss.tools.playground.nestor.changeProjectPresentation">
+      </handler>
+   </extension>
+   
 </plugin>
