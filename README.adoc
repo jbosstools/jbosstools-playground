@@ -76,3 +76,13 @@ want to open (again) the Project Settings page and tweak the new pages
 as desired.
 
 Reference Eclipse bug: https://bugs.eclipse.org/102527
+
+=== Auto-update out-of-date Maven project configuration
+
+Tired of seeing these "Project configuration is out-of-date" errors whenever 
+you tweak your pom.xml? This plugin will automatically do the 
+`Maven` > `Update project configuration` for you. *Currently* the only way to 
+disable the plugin is to uncheck it under from `Preferences` > `Startup and Shutdown`
+and restart the workspace. 
+
+Reference Eclipse bug: https://bugs.eclipse.org/335720
