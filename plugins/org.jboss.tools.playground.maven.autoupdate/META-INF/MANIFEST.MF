@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Auto-update out-of-date Maven project configuration
+Bundle-SymbolicName: org.jboss.tools.playground.maven.autoupdate;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: JBoss, by Red Hat
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.m2e.core,
+ org.eclipse.m2e.core.ui,
+ org.slf4j.api,
+ org.eclipse.ui.workbench
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Localization: plugin
+Bundle-Activator: org.jboss.tools.playground.maven.internal.MavenAutoUpdateProjectActivator
