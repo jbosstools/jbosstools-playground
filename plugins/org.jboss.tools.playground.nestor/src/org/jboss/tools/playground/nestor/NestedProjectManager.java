@@ -14,6 +14,7 @@ package org.jboss.tools.playground.nestor;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.playground.nestor.internal.ProjectPresentationHandler;
 
 /**
@@ -22,21 +23,49 @@ import org.jboss.tools.playground.nestor.internal.ProjectPresentationHandler;
  */
 public class NestedProjectManager {
 
-	public static boolean isShownAsProject(IFolder folder) {
+	/**
+	 * (1) {@code ProjectPresentationHandler.isNestingEnabled()} returns {@code true}, returns an {@link IProject} having the same location as the given {@code folder}
+	 * or {@code null} if no such exists.
+	 * <p>
+	 * (2) {@code ProjectPresentationHandler.isNestingEnabled()} returns {@code false}, returns {@code null}.
+
+	 * @param folder a folder to decide about
+	 * @return an {@link IProject} or {@code null}
+	 */
+	public static IProject getProject(IFolder folder) {
+		if (folder == null) {
+			return null;
+		}
 		if (ProjectPresentationHandler.isNestingEnabled()) {
+			IPath folderLocation = folder.getLocation();
+			// FIXME: performance: this is probably called often enough to cache the folder -> project mapping?
 			for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-				if (project.getLocation().equals(folder.getLocation())) {
-					return true;
+				if (project.getLocation().equals(folderLocation)) {
+					return project;
 				}
 			}
 		}
-		return false;
+		return null;
+	}
+
+	/**
+	 * A shorthand for {@code getProject(folder) != null}.
+	 *
+	 * @param folder
+	 * @return {@code true} if project having the same location as {@code folder} exists and nesting is enabled, {@code false} otherwise
+	 */
+	public static boolean isShownAsProject(IFolder folder) {
+		return getProject(folder) != null;
 	}
 
 	public static boolean isShownAsNested(IProject project) {
 		if (ProjectPresentationHandler.isNestingEnabled()) {
+			IPath queriedLocation = project.getLocation();
+			// FIXME: performance: this is probably called often enough to cache the project -> parentProject mapping?
 			for (IProject otherProject : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-				if (!project.equals(otherProject) && otherProject.getLocation().isPrefixOf(project.getLocation())) {
+				IPath otherLocation = otherProject.getLocation();
+				if (queriedLocation.segmentCount() - otherLocation.segmentCount() >= 1 && otherLocation.isPrefixOf(queriedLocation)) {
+					/* otherLocation is ancestor of queriedLocation (but not equal) */
 					return true;
 				}
 			}

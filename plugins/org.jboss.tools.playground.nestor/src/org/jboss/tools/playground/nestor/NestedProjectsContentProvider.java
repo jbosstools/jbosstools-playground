@@ -44,12 +44,9 @@ public class NestedProjectsContentProvider implements ITreeContentProvider {
 			List<IResource> children = Arrays.asList(container.members());
 			for (IResource child : children) {
 				if (child instanceof IFolder) {
-					if (NestedProjectManager.isShownAsProject((IFolder)child)) { 
-						for (IProject project : container.getWorkspace().getRoot().getProjects()) {
-							if (project.getLocation().equals(child.getLocation()) && project.isOpen()) {
-								nestedProjects.add(project);
-							}
-						}
+					IProject project = NestedProjectManager.getProject((IFolder) child);
+					if (project != null) {
+						nestedProjects.add(project);
 					}
 				}
 			}
