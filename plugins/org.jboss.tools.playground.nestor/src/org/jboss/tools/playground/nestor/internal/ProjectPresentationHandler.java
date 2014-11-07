@@ -8,9 +8,9 @@ import org.eclipse.ui.navigator.resources.ProjectExplorer;
 
 public class ProjectPresentationHandler extends AbstractHandler {
 
-	private static final String NEST_PARAMETER = "org.jboss.tools.playground.nestor.projectPresentation.nest";
-	private static Boolean nest = false;
-	
+	private static final String NEST_PARAMETER = "org.jboss.tools.playground.nestor.projectPresentation.nest"; //$NON-NLS-1$
+	private static boolean nest = false;
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		String newNestParam = event.getParameter(NEST_PARAMETER);
@@ -25,12 +25,12 @@ public class ProjectPresentationHandler extends AbstractHandler {
 		// TODO refresh selection
 		return Boolean.valueOf(nest);
 	}
-	
-	
+
+
 	public static boolean isNestingEnabled() {
 		return nest;
 	}
-	
+
 	@Override
 	public boolean isEnabled() {
 		return true;

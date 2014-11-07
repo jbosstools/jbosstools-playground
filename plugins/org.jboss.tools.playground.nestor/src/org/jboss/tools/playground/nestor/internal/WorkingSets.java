@@ -37,7 +37,7 @@ public class WorkingSets {
 			IAdaptable[] elements = workingSet.getElements();
 			for (IAdaptable element : elements) {
 				if (element instanceof IProject) {
-					if (project.equals((IProject) element)) {
+					if (project.equals(element)) {
 						projectWorkingSets.add(workingSet);
 					}
 				}
