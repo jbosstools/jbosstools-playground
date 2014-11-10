@@ -16,6 +16,7 @@
 	</properties>
 	<modules>
 		<module>plugins</module>
+		<module>tests</module>
 		<module>features</module>
 		<module>site</module>
 	</modules>

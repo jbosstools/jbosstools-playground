@@ -88,12 +88,5 @@
          </commandParameter>
       </command>
    </extension>
-   <extension
-         point="org.eclipse.ui.handlers">
-      <handler
-            class="org.jboss.tools.playground.nestor.internal.ProjectPresentationHandler"
-            commandId="org.jboss.tools.playground.nestor.changeProjectPresentation">
-      </handler>
-   </extension>
    
 </plugin>
