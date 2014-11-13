@@ -59,8 +59,8 @@ simply show projects in a hierarchic view in Eclipse.
 
 This plugin makes it possible. When a folder is a project, you can
 simply show it where it is, under its parent folder. It's only available
-on _Project Explorer_ and you can decide of whether to show project in
-regular way or nested just by right-clicking on the related folder.
+on _Project Explorer_ and you can control whether you want to show projects
+nested or flat in the view menu, similarly to enabling Working Sets or not.
 
 Reference Eclipse bug: https://bugs.eclipse.org/427768
 
