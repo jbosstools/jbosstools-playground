@@ -101,7 +101,7 @@ public class Activator extends AbstractUIPlugin implements IStartup {
 	@Override
 	public void earlyStartup() {
 		try {
-			initCommand();
+			enableAutoSaveIfNeeded();
 		} catch (ExecutionException e) {
 			logError(e, e.getMessage());
 		} catch (NotDefinedException e) {
@@ -113,10 +113,11 @@ public class Activator extends AbstractUIPlugin implements IStartup {
 		}
 	}
 
-	private void initCommand() throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException {
+	private void enableAutoSaveIfNeeded() throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException {
 		boolean commandState = CommandUtil.getCommandState(CommandUtil.getCommand(COMMAND_ID));
 		if (commandState == true) {
-			AutoSaveJob.getInstance().schedule();
+			AutoSaveProcessor.INSTANCE.enableAutoSave();
+//			AutoSaveJob.getInstance().schedule();
 		}
 	}
 }

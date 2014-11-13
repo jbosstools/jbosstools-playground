@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.playground.autosave.internal.model;
 
-import org.jboss.tools.playground.autosave.internal.AutoSaveJob;
+import org.jboss.tools.playground.autosave.internal.AutoSaveProcessor;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"
@@ -19,7 +19,8 @@ public class TurnAutoSaveOff implements Command {
 
 	@Override
 	public void execute() {
-		AutoSaveJob.getInstance().cancel();
+		AutoSaveProcessor.INSTANCE.disableAutoSave();
+//		AutoSaveJob.getInstance().cancel();
 	}
 
 }

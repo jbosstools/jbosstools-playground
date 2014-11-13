@@ -24,13 +24,19 @@ public final class CommandUtil {
 	private CommandUtil() {
 	}
 
-	public static boolean getCommandState(Command command) {
-		State state = command.getState(RegistryToggleState.STATE_ID);
-		return (Boolean) state.getValue();
+	public static Boolean getCommandState(Command command) {
+		if (command != null) {
+			State state = command.getState(RegistryToggleState.STATE_ID);
+			return (Boolean) state.getValue();
+		}
+		return null;
 	}
 
 	public static Command getCommand(String commandID) {
-		ICommandService commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
-		return commandService.getCommand(commandID);
+		if (commandID != null) {
+			ICommandService commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
+			return commandService.getCommand(commandID);
+		}
+		return null;
 	}
 }

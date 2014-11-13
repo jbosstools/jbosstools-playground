@@ -10,7 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.playground.autosave.internal.model;
 
-import org.jboss.tools.playground.autosave.internal.AutoSaveJob;
+import org.jboss.tools.playground.autosave.internal.AutoSaveProcessor;
+import org.jboss.tools.playground.autosave.util.EditorUtil;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"
@@ -19,7 +20,9 @@ public class TurnAutoSaveOn implements Command {
 
 	@Override
 	public void execute() {
-		AutoSaveJob.getInstance().schedule();
+		EditorUtil.saveDirtyEditors(); 
+		AutoSaveProcessor.INSTANCE.enableAutoSave();
+//		AutoSaveJob.getInstance().schedule();
 	}
 
 }

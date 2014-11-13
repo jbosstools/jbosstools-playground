@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -29,18 +30,20 @@ public final class EditorUtil {
 
 			@Override
 			public void run() {
-				IEditorReference[] references = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
-				if (references != null) {
-					NullProgressMonitor monitor = new NullProgressMonitor();
-					for (IEditorReference r : references) {
-						IEditorPart editor = r.getEditor(false);
-						if (editor != null && editor.isDirty()) {
-							editor.doSave(monitor);
+				IWorkbenchWindow activeWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+				if (activeWindow != null) {
+					IEditorReference[] references = activeWindow.getActivePage().getEditorReferences();
+					if (references != null) {
+						NullProgressMonitor monitor = new NullProgressMonitor();
+						for (IEditorReference r : references) {
+							IEditorPart editor = r.getEditor(false);
+							if (editor != null && editor.isDirty()) {
+								editor.doSave(monitor);
+							}
 						}
 					}
 				}
 			}
-
 		});
 	}
 
