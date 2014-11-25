@@ -1,5 +1,6 @@
 package org.jboss.tools.playground.easymport.java;
 
+import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -45,6 +46,10 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+
+	public static void log(int severity, String message) {
+		getDefault().getLog().log(new Status(severity, getDefault().getBundle().getSymbolicName(), message));
 	}
 
 }

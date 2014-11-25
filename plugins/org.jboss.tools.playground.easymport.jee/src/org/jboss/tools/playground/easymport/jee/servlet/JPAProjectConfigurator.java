@@ -1,12 +1,16 @@
 package org.jboss.tools.playground.easymport.jee.servlet;
 
 import java.io.InputStream;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -19,6 +23,7 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.playground.easymport.extension.ProjectConfigurator;
+import org.jboss.tools.playground.easymport.extension.RecursiveFileFinder;
 import org.jboss.tools.playground.easymport.jee.Activator;
 import org.jboss.tools.playground.easymport.jee.Messages;
 import org.w3c.dom.Document;
@@ -26,9 +31,9 @@ import org.w3c.dom.Document;
 public class JPAProjectConfigurator implements ProjectConfigurator {
 
 	@Override
-	public boolean canApplyFor(IProject project, IProgressMonitor monitor) {
+	public boolean canApplyFor(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		try {
-			RecursiveFileFinder finder = new RecursiveFileFinder("persistence.xml");
+			RecursiveFileFinder finder = new RecursiveFileFinder("persistence.xml", ignoredDirectories);
 			project.accept(finder);
 			return finder.getFile() != null;
 		} catch (CoreException ex) {
@@ -42,16 +47,16 @@ public class JPAProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, IProgressMonitor monitor) {
+	public void applyTo(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		try {
-			DynamicProjectTools.convertToFacetedProject(project, monitor);
+			DynamicProjectTools.convertToFacetedProject(project, ignoredDirectories, monitor);
 			IFacetedProject facetedProject = ProjectFacetsManager.create(project, true, monitor);
 
 			IProjectFacet JPA_FACET = ProjectFacetsManager.getProjectFacet("jpt.jpa");
 			if (!facetedProject.hasProjectFacet(JPA_FACET)) {
 				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-				RecursiveFileFinder finder = new RecursiveFileFinder("persistence.xml");
+				RecursiveFileFinder finder = new RecursiveFileFinder("persistence.xml", ignoredDirectories);
 				project.accept(finder);
 				InputStream webXmlStream = finder.getFile().getContents();
 				Document doc = dBuilder.parse(webXmlStream);
@@ -74,6 +79,16 @@ public class JPAProjectConfigurator implements ProjectConfigurator {
 	@Override
 	public String getLabel() {
 		return Messages.jpaConfiguratorLabel;
+	}
+
+	@Override
+	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+		return false; // TODO can we make sure a given dir is actually a JPA project
+	}
+
+	@Override
+	public Set<IFolder> getDirectoriesToIgnore(IProject project, IProgressMonitor monitor) {
+		return null;
 	}
 
 }

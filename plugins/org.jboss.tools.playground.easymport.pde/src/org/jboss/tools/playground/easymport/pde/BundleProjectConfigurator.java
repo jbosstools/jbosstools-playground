@@ -10,8 +10,10 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -23,12 +25,13 @@ import org.eclipse.pde.internal.core.build.WorkspaceBuildModel;
 import org.eclipse.pde.internal.core.natures.PDE;
 import org.eclipse.pde.internal.core.util.CoreUtility;
 import org.jboss.tools.playground.easymport.extension.ProjectConfigurator;
+import org.jboss.tools.playground.easymport.java.JDTProjectNature;
 import org.osgi.framework.Constants;
 
 public class BundleProjectConfigurator implements ProjectConfigurator {
 
 	@Override
-	public boolean canApplyFor(IProject project, IProgressMonitor monitor) {
+	public boolean canApplyFor(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		try {
 			IFile manifestResource = project.getFolder("META-INF").getFile("MANIFEST.MF");
 			if (manifestResource.exists()) {
@@ -54,7 +57,7 @@ public class BundleProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, IProgressMonitor monitor) {
+	public void applyTo(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		if (PDE.hasPluginNature(project)) {
 			// already configured, nothing else to do
 			return;
@@ -108,6 +111,17 @@ public class BundleProjectConfigurator implements ProjectConfigurator {
 	@Override
 	public String getLabel() {
 		return Messages.bundleConfiguratorLabel;
+	}
+
+	@Override
+	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+		return container.getFile(new Path("META-INF/MANIFEST.MF")).exists();
+	}
+
+	@Override
+	public Set<IFolder> getDirectoriesToIgnore(IProject project, IProgressMonitor monitor) {
+		return new JDTProjectNature().getDirectoriesToIgnore(project, monitor);
+		// TODO add directories declared for src.* and bin.* in build.properties
 	}
 
 }

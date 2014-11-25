@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -26,25 +28,51 @@ public class JSDTProjectNature implements ProjectConfigurator {
 	private final static String FILE_EXTENSION = ".js";
 
 	private final static class JavaScriptResourceExistsFinder implements IResourceVisitor {
-		private boolean hasJavaFile;
+		private boolean hasJSFile;
+		private Set<IPath> ignoredDirectories;
+		
+		public JavaScriptResourceExistsFinder(Set<IPath> ignoredDirectories) {
+			this.ignoredDirectories = ignoredDirectories;
+		}
 		
 		@Override
 		public boolean visit(IResource resource) throws CoreException {
-			this.hasJavaFile = this.hasJavaFile || (resource.getType() == IResource.FILE && resource.getName().endsWith(FILE_EXTENSION));
-			return !this.hasJavaFile; 
+			if (this.ignoredDirectories != null) {
+				for (IPath ignoredDirectory : this.ignoredDirectories) {
+					if (ignoredDirectory.isPrefixOf(resource.getLocation())) {
+						return false;
+					}
+				}
+			}
+			
+			this.hasJSFile = this.hasJSFile || (resource.getType() == IResource.FILE && resource.getName().endsWith(FILE_EXTENSION));
+			return !this.hasJSFile; 
 		}
 		
 		public boolean hasJavaFile() {
-			return this.hasJavaFile;
+			return this.hasJSFile;
 		}
 		
 	}
 	
 	private final static class JavaScriptResourceFinder implements IResourceVisitor {
 		private Set<IContainer> mostLikelySourceFolders =  new HashSet<IContainer>();
-
+		private Set<IPath> ignoredDirectories;
+		
+		public JavaScriptResourceFinder(Set<IPath> ignoredDirectories) {
+			this.ignoredDirectories = ignoredDirectories;
+		}
+		
 		@Override
 		public boolean visit(final IResource resource) throws CoreException {
+			if (this.ignoredDirectories != null) {
+				for (IPath ignoredDirectory : this.ignoredDirectories) {
+					if (ignoredDirectory.isPrefixOf(resource.getLocation())) {
+						return false;
+					}
+				}
+			}
+			
 			if (resource.getType() == IResource.FILE && resource.getName().endsWith(FILE_EXTENSION)) {
 				this.mostLikelySourceFolders.add(resource.getParent());
 			} else {
@@ -77,8 +105,8 @@ public class JSDTProjectNature implements ProjectConfigurator {
 	}
 
 	@Override
-	public boolean canApplyFor(IProject project, IProgressMonitor monitor) {
-		JavaScriptResourceExistsFinder javaResourceFinder = new JavaScriptResourceExistsFinder();
+	public boolean canApplyFor(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+		JavaScriptResourceExistsFinder javaResourceFinder = new JavaScriptResourceExistsFinder(ignoredDirectories);
 		try {
 			project.accept(javaResourceFinder);
 		} catch (CoreException ex) {
@@ -99,7 +127,7 @@ public class JSDTProjectNature implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, IProgressMonitor monitor) {
+	public void applyTo(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		try {
 			IProjectDescription description = project.getDescription();
 			List<String> natures = Arrays.asList(description.getNatureIds());
@@ -113,7 +141,7 @@ public class JSDTProjectNature implements ProjectConfigurator {
 				List<IIncludePathEntry> includePathEntries = Arrays.asList(jsNature.getRawIncludepath());
 				List<IIncludePathEntry> newIncludePathEntries = new ArrayList<IIncludePathEntry>(includePathEntries);
 				// Should first check whether a JRE container is already configured
-				JavaScriptResourceFinder javaResourceFinder = new JavaScriptResourceFinder();
+				JavaScriptResourceFinder javaResourceFinder = new JavaScriptResourceFinder(ignoredDirectories);
 				project.accept(javaResourceFinder);
 				Set<IContainer> sourceFolders = javaResourceFinder.getSourceFolders();
 				if (!sourceFolders.isEmpty()) {
@@ -144,4 +172,13 @@ public class JSDTProjectNature implements ProjectConfigurator {
 		return Messages.jsdtConfiguratorLabel;
 	}
 
+	@Override
+	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+		return false;
+	}
+	
+	@Override
+	public Set<IFolder> getDirectoriesToIgnore(IProject project, IProgressMonitor monitor) {
+		return null; // JSDT doesn't create "rubbish" directories
+	}
 }

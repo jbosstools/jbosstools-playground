@@ -70,5 +70,11 @@
          </includes>
       </viewerContentBinding>
    </extension>
+   <extension
+         point="org.jboss.tools.playground.easymport.projectConfigurators">
+      <projectConfigurator
+            class="org.jboss.tools.playground.easymport.extension.EclipseProjectConfigurator">
+      </projectConfigurator>
+   </extension>
    
 </plugin>

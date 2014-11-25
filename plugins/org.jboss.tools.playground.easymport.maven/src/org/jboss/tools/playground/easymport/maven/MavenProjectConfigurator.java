@@ -1,8 +1,18 @@
 package org.jboss.tools.playground.easymport.maven;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.maven.model.Model;
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.m2e.core.MavenPlugin;
@@ -14,8 +24,8 @@ import org.jboss.tools.playground.easymport.extension.ProjectConfigurator;
 public class MavenProjectConfigurator implements ProjectConfigurator {
 
 	@Override
-	public boolean canApplyFor(IProject project, IProgressMonitor monitor) {
-		return project.getFile(IMavenConstants.POM_FILE_NAME).exists(); 
+	public boolean canApplyFor(IProject project, Set<IPath> ignoredPaths, IProgressMonitor monitor) {
+		return isProject(project, monitor); 
 	}
 
 	@Override
@@ -25,7 +35,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, IProgressMonitor monitor) {
+	public void applyTo(IProject project, Set<IPath> excludedDirectories, IProgressMonitor monitor) {
 		// copied from org.eclipse.m2e.core.ui.internal.actions.EnableNatureAction
 		
 		ResolverConfiguration configuration = new ResolverConfiguration();
@@ -50,4 +60,27 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	public String getLabel() {
 		return Messages.mavenConfiguratorLabel;
 	}
+
+	@Override
+	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+		IFile pomFile = container.getFile(new Path(IMavenConstants.POM_FILE_NAME));
+		if (!pomFile.exists()) {
+			return false;
+		}
+		try {
+			Model pomModel = MavenPlugin.getMavenModelManager().readMavenModel(pomFile);
+			return !pomModel.getPackaging().equals("pom"); // TODO find symbol for "pom"
+		} catch (CoreException ex) {
+			Activator.log(IStatus.ERROR, "Could not parse pom file " + pomFile.getLocation(), ex);
+			return false;
+		}
+	}
+
+	@Override
+	public Set<IFolder> getDirectoriesToIgnore(IProject project, IProgressMonitor monitor) {
+		Set<IFolder> res = new HashSet<IFolder>();
+		res.add(project.getFolder("target")); // TODO: get this value from pom.
+		return res;
+	}
+
 }

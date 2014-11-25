@@ -2,11 +2,15 @@ package org.jboss.tools.playground.easymport;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.FileTransfer;
@@ -59,9 +63,14 @@ public class OpenFolderDropAdapterAssistant extends CommonDropAdapterAssistant {
 					workingSet = (IWorkingSet) ((IAdaptable)aTarget).getAdapter(IWorkingSet.class);
 				}
 			}
-			IProject project = new OpenFolderCommand().openFolderAsProject(directory, workingSet);
+			Set<IWorkingSet> workingSets = new HashSet<IWorkingSet>();
+			workingSets.add(workingSet);
+			IProgressMonitor progressMonitor = new NullProgressMonitor();
+			OpenFolderCommand openFolder = new OpenFolderCommand();
+			IProject project = openFolder.toExistingOrNewProject(directory, workingSets, progressMonitor);
+			openFolder.importProjectAndChildrenRecursively(project, true, workingSets, progressMonitor);
 			return Status.OK_STATUS;
-		} catch (IOException ex) {
+		} catch (Exception ex) {
 			return new Status(IStatus.ERROR, Activator.getDefault().getBundle().getSymbolicName(), ex.getMessage(), ex);
 		}
 	}

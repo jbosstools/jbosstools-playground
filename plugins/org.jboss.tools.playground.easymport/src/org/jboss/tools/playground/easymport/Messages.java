@@ -15,14 +15,6 @@ public class Messages extends NLS {
 	public static String anotherProjectWithSameNameExists_description;
 	public static String importProject;
 	
-	public static String jdtConfiguratorLabel;
-	public static String mavenConfiguratorLabel;
-	public static String featureConfiguratorLabel;
-	public static String jpaConfiguratorLabel;
-	public static String servletConfiguratorLabel;
-	public static String jaxrsConfiguratorLabel;
-	public static String bundleConfiguratorLabel;
-	public static String jsdtConfiguratorLabel;
-	public static String cordovaConfiguratorLabel;
+	public static String eclipseProjectConfigurationLabel;
 	
 }

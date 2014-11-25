@@ -1,7 +1,10 @@
 package org.jboss.tools.playground.easymport.jee.servlet;
 
+import java.util.Set;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.JavaCore;
@@ -12,9 +15,9 @@ import org.jboss.tools.playground.easymport.java.JDTProjectNature;
 
 public class DynamicProjectTools {
 
-	public static void convertToFacetedProject(IProject project, IProgressMonitor monitor) throws Exception {
+	public static void convertToFacetedProject(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) throws Exception {
 		if (!ProjectFacetsManager.isProjectFacetDefined(project.getName())) {
-			new JDTProjectNature().applyTo(project, monitor);
+			new JDTProjectNature().applyTo(project, ignoredDirectories, monitor);
 			IFacetedProject facetedProject = ProjectFacetsManager.create(project, true, monitor);
 			IProjectFacet JAVA_FACET = ProjectFacetsManager.getProjectFacet("jst.java");
 	
