@@ -1,6 +1,11 @@
 package org.jboss.tools.playground.easymport.cordova;
 
+import java.util.Set;
+
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizard;
@@ -11,9 +16,13 @@ import org.jboss.tools.playground.easymport.extension.ProjectConfigurator;
 public class CordovaProjectConfigurator implements ProjectConfigurator {
 
 
+	@Override
+	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+		return false;
+	}
 
 	@Override
-	public boolean canApplyFor(IProject project, IProgressMonitor monitor) {
+	public boolean canApplyFor(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		return project.getFile(PlatformConstants.FILE_XML_CONFIG).exists() || project.getFolder(PlatformConstants.DIR_WWW).getFile(PlatformConstants.FILE_XML_CONFIG).exists();
 	}
 
@@ -23,7 +32,7 @@ public class CordovaProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, IProgressMonitor monitor) {
+	public void applyTo(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
@@ -37,4 +46,8 @@ public class CordovaProjectConfigurator implements ProjectConfigurator {
 		return Messages.cordovaConfiguratorLabel;
 	}
 
+	@Override
+	public Set<IFolder> getDirectoriesToIgnore(IProject project, IProgressMonitor monitor) {
+		return null;
+	}
 }
