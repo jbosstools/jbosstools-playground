@@ -17,18 +17,18 @@ public class ProjectPresentationHandler extends AbstractHandler {
 		if (HandlerUtil.matchesRadioState(event)) {
 			return null;
 		}
-	
-		Boolean previousNest = isNestingEnabled();
+
+		boolean previousNest = isNestingEnabled();
 		String newNestParam = event.getParameter(NEST_PARAMETER);
 		boolean newNest = false;
 		if (newNestParam != null) {
 			newNest = Boolean.parseBoolean(newNestParam);
 		}
 		if (newNest != previousNest) {
-			Activator.getDefault().getPreferenceStore().setValue(NEST_PARAMETER, newNest);;
+			Activator.getDefault().getPreferenceStore().setValue(NEST_PARAMETER, newNest);
 			((ProjectExplorer)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart()).getCommonViewer().refresh();
 		}
-		
+
 		HandlerUtil.updateRadioState(event.getCommand(), Boolean.toString(newNest));
 		// TODO refresh selection
 		return Boolean.valueOf(newNest);
