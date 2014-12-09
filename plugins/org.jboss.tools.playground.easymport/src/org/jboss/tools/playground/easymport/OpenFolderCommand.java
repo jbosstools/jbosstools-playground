@@ -30,6 +30,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.PlatformUI;
@@ -65,21 +66,30 @@ public class OpenFolderCommand extends AbstractHandler {
 				@Override
 				public void run(IProgressMonitor progressMonitor) throws InvocationTargetException, InterruptedException {
 					try {
-						IProject project = toExistingOrNewProject(directory, workingSets, progressMonitor);
+						final IProject project = toExistingOrNewProject(directory, workingSets, progressMonitor);
 						importProjectAndChildrenRecursively(project, true, workingSets, progressMonitor);	
-					} catch (Exception ex) {
-						ErrorDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
-								"Could not fully import " + directory.getName(),
-								"An error happened while try to import " + directory.getAbsolutePath() + ": " + ex.getMessage(),
-								new Status(IStatus.ERROR, Activator.getDefault().getBundle().getSymbolicName(), ex.getMessage(), ex));
+					} catch (final Exception ex) {
+						final Status status = new Status(IStatus.ERROR, Activator.getDefault().getBundle().getSymbolicName(), ex.getMessage(), ex);
+						Activator.getDefault().getLog().log(status);
+						Display.getDefault().asyncExec(new Runnable() {
+							@Override
+							public void run() {
+								ErrorDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+										"Could not fully import " + directory.getName(),
+										"An error happened while try to import " + directory.getAbsolutePath() + ": " + ex.getMessage(),
+										status);								
+							}
+						});
 					}
 				}
 			});
 		} catch (Exception ex) {
+			Status status = new Status(IStatus.ERROR, Activator.getDefault().getBundle().getSymbolicName(), ex.getMessage(), ex);
+			Activator.getDefault().getLog().log(status);
 			ErrorDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
 					"Could not fully import " + directory.getName(),
 					"An error happened while try to import " + directory.getAbsolutePath() + ": " + ex.getMessage(),
-					new Status(IStatus.ERROR, Activator.getDefault().getBundle().getSymbolicName(), ex.getMessage(), ex));
+					status);
 		}
 		return null; //TODO find something more useful to return
 	}
