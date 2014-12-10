@@ -17,7 +17,7 @@ public class DynamicProjectTools {
 
 	public static void convertToFacetedProject(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) throws Exception {
 		if (!ProjectFacetsManager.isProjectFacetDefined(project.getName())) {
-			new JDTProjectNature().applyTo(project, ignoredDirectories, monitor);
+			new JDTProjectNature().configure(project, ignoredDirectories, monitor);
 			IFacetedProject facetedProject = ProjectFacetsManager.create(project, true, monitor);
 			IProjectFacet JAVA_FACET = ProjectFacetsManager.getProjectFacet("jst.java");
 	

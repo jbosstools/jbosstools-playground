@@ -30,7 +30,7 @@ public interface ProjectConfigurator {
 	 * @param monitor
 	 * @return true if the given folder is for sure to be considered as a project
 	 */
-	public boolean isProject(IContainer container, IProgressMonitor monitor);
+	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor);
 	
 	/**
 	 * This method MUST BE stateless (ideally static)
@@ -50,7 +50,7 @@ public interface ProjectConfigurator {
 	 * @param monitor
 	 * @return true if the current configurator can configure given project
 	 */
-	public boolean canApplyFor(IProject project, Set<IPath> ignoredPaths, IProgressMonitor monitor);
+	public boolean canConfigure(IProject project, Set<IPath> ignoredPaths, IProgressMonitor monitor);
 	
 	/**
 	 * 
@@ -65,7 +65,7 @@ public interface ProjectConfigurator {
 	 * Those will typically be nested projects, or "work" directory (bin/ target/ ...)
 	 * @param monitor
 	 */
-	public void applyTo(IProject project, Set<IPath> excludedDirectories, IProgressMonitor monitor);
+	public void configure(IProject project, Set<IPath> excludedDirectories, IProgressMonitor monitor);
 	
 	public String getLabel();
 	

@@ -24,8 +24,8 @@ import org.jboss.tools.playground.easymport.extension.ProjectConfigurator;
 public class MavenProjectConfigurator implements ProjectConfigurator {
 
 	@Override
-	public boolean canApplyFor(IProject project, Set<IPath> ignoredPaths, IProgressMonitor monitor) {
-		return isProject(project, monitor); 
+	public boolean canConfigure(IProject project, Set<IPath> ignoredPaths, IProgressMonitor monitor) {
+		return shouldBeAnEclipseProject(project, monitor); 
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, Set<IPath> excludedDirectories, IProgressMonitor monitor) {
+	public void configure(IProject project, Set<IPath> excludedDirectories, IProgressMonitor monitor) {
 		// copied from org.eclipse.m2e.core.ui.internal.actions.EnableNatureAction
 		
 		ResolverConfiguration configuration = new ResolverConfiguration();
@@ -62,7 +62,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor) {
 		IFile pomFile = container.getFile(new Path(IMavenConstants.POM_FILE_NAME));
 		if (!pomFile.exists()) {
 			return false;

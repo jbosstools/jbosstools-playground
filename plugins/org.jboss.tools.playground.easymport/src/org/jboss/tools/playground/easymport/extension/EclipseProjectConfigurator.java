@@ -15,7 +15,7 @@ import org.jboss.tools.playground.easymport.Messages;
 public class EclipseProjectConfigurator implements ProjectConfigurator {
 
 	@Override
-	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor) {
 		return container.getFile(new Path(IProjectDescription.DESCRIPTION_FILE_NAME)).exists();
 	}
 
@@ -25,7 +25,7 @@ public class EclipseProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public boolean canApplyFor(IProject project, Set<IPath> ignoredPaths, IProgressMonitor monitor) {
+	public boolean canConfigure(IProject project, Set<IPath> ignoredPaths, IProgressMonitor monitor) {
 		return true;
 	}
 
@@ -35,7 +35,7 @@ public class EclipseProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, Set<IPath> excludedDirectories, IProgressMonitor monitor) {
+	public void configure(IProject project, Set<IPath> excludedDirectories, IProgressMonitor monitor) {
 		// Nothing to do
 	}
 

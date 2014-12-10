@@ -143,7 +143,7 @@ public class OpenFolderCommand extends AbstractHandler {
 			if (progressMonitor.isCanceled()) {
 				return null;
 			}
-			if (configurator.isProject(container, progressMonitor)) {
+			if (configurator.shouldBeAnEclipseProject(container, progressMonitor)) {
 				mainProjectConfigurators.add(configurator);
 			}
 			progressMonitor.worked(1);
@@ -158,15 +158,15 @@ public class OpenFolderCommand extends AbstractHandler {
 			IProject project = toExistingOrNewProject(container.getLocation().toFile(), workingSets, progressMonitor);
 			projectFromCurrentContainer.add(project);
 			for (ProjectConfigurator configurator : mainProjectConfigurators) {
-				configurator.applyTo(project, excludedPaths, progressMonitor);
+				configurator.configure(project, excludedPaths, progressMonitor);
 				excludedPaths.addAll(toPathSet(configurator.getDirectoriesToIgnore(project, progressMonitor)));
 			}
 			Set<IProject> allNestedProjects = searchAndImportChildrenProjectsRecursively(project, excludedPaths, workingSets, progressMonitor);
 			excludedPaths.addAll(toPathSet(allNestedProjects));
 			progressMonitor.beginTask("Continue configuration of project at " + container.getLocation().toFile().getAbsolutePath(), ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators().size());
 			for (ProjectConfigurator additionalConfigurator : ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators()) {
-				if (!mainProjectConfigurators.contains(additionalConfigurator) && additionalConfigurator.canApplyFor(project, excludedPaths, progressMonitor)) {
-					additionalConfigurator.applyTo(project, excludedPaths, progressMonitor);
+				if (!mainProjectConfigurators.contains(additionalConfigurator) && additionalConfigurator.canConfigure(project, excludedPaths, progressMonitor)) {
+					additionalConfigurator.configure(project, excludedPaths, progressMonitor);
 					excludedPaths.addAll(toPathSet(additionalConfigurator.getDirectoriesToIgnore(project, progressMonitor)));
 				}
 				progressMonitor.worked(1);
@@ -181,8 +181,8 @@ public class OpenFolderCommand extends AbstractHandler {
 				IProject project = toExistingOrNewProject(container.getLocation().toFile(), workingSets, progressMonitor);
 				projectFromCurrentContainer.add(project);
 				for (ProjectConfigurator additionalConfigurator : ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators()) {
-					if (additionalConfigurator.canApplyFor(project, excludedPaths, progressMonitor)) {
-						additionalConfigurator.applyTo(project, excludedPaths, progressMonitor);
+					if (additionalConfigurator.canConfigure(project, excludedPaths, progressMonitor)) {
+						additionalConfigurator.configure(project, excludedPaths, progressMonitor);
 						excludedPaths.addAll(toPathSet(additionalConfigurator.getDirectoriesToIgnore(project, progressMonitor)));
 					}
 					progressMonitor.worked(1);

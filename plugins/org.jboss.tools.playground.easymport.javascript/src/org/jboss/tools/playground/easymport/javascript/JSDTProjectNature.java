@@ -105,7 +105,7 @@ public class JSDTProjectNature implements ProjectConfigurator {
 	}
 
 	@Override
-	public boolean canApplyFor(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+	public boolean canConfigure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		JavaScriptResourceExistsFinder javaResourceFinder = new JavaScriptResourceExistsFinder(ignoredDirectories);
 		try {
 			project.accept(javaResourceFinder);
@@ -127,7 +127,7 @@ public class JSDTProjectNature implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+	public void configure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		try {
 			IProjectDescription description = project.getDescription();
 			List<String> natures = Arrays.asList(description.getNatureIds());
@@ -173,7 +173,7 @@ public class JSDTProjectNature implements ProjectConfigurator {
 	}
 
 	@Override
-	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor) {
 		return false;
 	}
 	

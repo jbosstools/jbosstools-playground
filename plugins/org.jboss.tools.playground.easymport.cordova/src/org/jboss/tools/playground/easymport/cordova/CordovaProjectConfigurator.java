@@ -17,12 +17,12 @@ public class CordovaProjectConfigurator implements ProjectConfigurator {
 
 
 	@Override
-	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor) {
 		return false;
 	}
 
 	@Override
-	public boolean canApplyFor(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+	public boolean canConfigure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		return project.getFile(PlatformConstants.FILE_XML_CONFIG).exists() || project.getFolder(PlatformConstants.DIR_WWW).getFile(PlatformConstants.FILE_XML_CONFIG).exists();
 	}
 
@@ -32,7 +32,7 @@ public class CordovaProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+	public void configure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {

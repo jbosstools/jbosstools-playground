@@ -31,7 +31,7 @@ import org.osgi.framework.Constants;
 public class BundleProjectConfigurator implements ProjectConfigurator {
 
 	@Override
-	public boolean canApplyFor(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+	public boolean canConfigure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		try {
 			IFile manifestResource = project.getFolder("META-INF").getFile("MANIFEST.MF");
 			if (manifestResource.exists()) {
@@ -57,7 +57,7 @@ public class BundleProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+	public void configure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		if (PDE.hasPluginNature(project)) {
 			// already configured, nothing else to do
 			return;
@@ -114,7 +114,7 @@ public class BundleProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor) {
 		return container.getFile(new Path("META-INF/MANIFEST.MF")).exists();
 	}
 

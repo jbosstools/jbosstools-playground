@@ -30,8 +30,8 @@ import org.jboss.tools.playground.easymport.jee.Messages;
 public class JaxRsConfigurator implements ProjectConfigurator {
 
 	@Override
-	public boolean canApplyFor(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
-		if (!new ServletProjectConfigurator().canApplyFor(project, ignoredDirectories, monitor)) {
+	public boolean canConfigure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+		if (!new ServletProjectConfigurator().canConfigure(project, ignoredDirectories, monitor)) {
 			return false;
 		}
 		RecursiveFileFinder webXMLFinder = new RecursiveFileFinder("web.xml", ignoredDirectories);
@@ -67,9 +67,9 @@ public class JaxRsConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+	public void configure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		try {
-			new ServletProjectConfigurator().applyTo(project, ignoredDirectories, monitor);
+			new ServletProjectConfigurator().configure(project, ignoredDirectories, monitor);
 			IFacetedProject facetedProject = ProjectFacetsManager.create(project, true, monitor);
 
 			IProjectFacet JAXRS_FACET = ProjectFacetsManager.getProjectFacet("jst.jaxrs");
@@ -94,7 +94,7 @@ public class JaxRsConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor) {
 		return false; // TODO can we make sure a given directory is a jax-rs project?
 	}
 

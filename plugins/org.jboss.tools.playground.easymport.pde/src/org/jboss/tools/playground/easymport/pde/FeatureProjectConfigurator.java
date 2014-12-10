@@ -20,7 +20,7 @@ import org.jboss.tools.playground.easymport.extension.ProjectConfigurator;
 public class FeatureProjectConfigurator implements ProjectConfigurator {
 
 	@Override
-	public boolean canApplyFor(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+	public boolean canConfigure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		IFile featureFile = project.getFile("feature.xml");
 		if (featureFile.exists()) {
 			WorkspaceFeatureModel workspaceFeatureModel = new WorkspaceFeatureModel(featureFile);
@@ -36,7 +36,7 @@ public class FeatureProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+	public void configure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		if (!PDE.hasFeatureNature(project)) {
 			try {
 				CoreUtility.addNatureToProject(project, PDE.FEATURE_NATURE, monitor);
@@ -56,7 +56,7 @@ public class FeatureProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor) {
 		return container.getFile(new Path("feature.xml")).exists();
 	}
 

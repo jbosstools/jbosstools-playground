@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 public class ServletProjectConfigurator implements ProjectConfigurator {
 
 	@Override
-	public boolean canApplyFor(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+	public boolean canConfigure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		try {
 			RecursiveFileFinder finder = new RecursiveFileFinder("web.xml", ignoredDirectories);
 			project.accept(finder);
@@ -48,7 +48,7 @@ public class ServletProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void applyTo(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
+	public void configure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		try {
 			DynamicProjectTools.convertToFacetedProject(project, ignoredDirectories, monitor);
 			IFacetedProject facetedProject = ProjectFacetsManager.create(project, true, monitor);
@@ -87,7 +87,7 @@ public class ServletProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public boolean isProject(IContainer container, IProgressMonitor monitor) {
+	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor) {
 		return false; // TODO: can we make sure a dir is a JEE project?
 	}
 
