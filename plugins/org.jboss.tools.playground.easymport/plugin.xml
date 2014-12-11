@@ -18,7 +18,7 @@
          point="org.eclipse.ui.commands">
       <command
             id="org.jboss.tools.playground.easymport.openDirectory"
-            name="%openDirectory">
+            name="%importProjectsFromFolder">
       </command>
    </extension>
    <extension
@@ -37,44 +37,21 @@
    </extension>
    
    <!-- Drop folders -->
-   <extension point="org.eclipse.ui.navigator.navigatorContent">
-      <navigatorContent
-            activeByDefault="true"
-            id="org.jboss.tools.playground.easymport.dropFolders"
-            name="%openDirectory"
-            priority="higher">
-         <enablement>
-         	<or>
-         	   <adapt type="org.eclipse.core.resources.IWorkspaceRoot"/>
-         	   <adapt type="org.eclipse.ui.IWorkingSet"/>
-         	</or>
-         </enablement>
-         <possibleChildren>
-         	<!-- Refine to Folder DND type -->
-            <instanceof value="java.lang.Object"/>
-         </possibleChildren>
-         <dropAssistant id="org.jboss.tools.playground.easymport.dropFolders.assistant" class="org.jboss.tools.playground.easymport.OpenFolderDropAdapterAssistant">
-            <possibleDropTargets>
-	            <or>
-	         	   <adapt type="org.eclipse.core.resources.IWorkspaceRoot"/>
-	         	   <adapt type="org.eclipse.ui.IWorkingSet"/>
-	         	</or>
-            </possibleDropTargets>
-         </dropAssistant>
-      </navigatorContent>
-   </extension>
-   <extension point="org.eclipse.ui.navigator.viewer">
-      <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
-         <includes>
-            <contentExtension pattern="org.jboss.tools.playground.easymport.*"/>
-         </includes>
-      </viewerContentBinding>
-   </extension>
    <extension
          point="org.jboss.tools.playground.easymport.projectConfigurators">
       <projectConfigurator
             class="org.jboss.tools.playground.easymport.extension.EclipseProjectConfigurator">
       </projectConfigurator>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <wizard
+            category="org.eclipse.ui.Basic"
+            class="org.jboss.tools.playground.easymport.EasymportWizard"
+            id="org.jboss.tools.playground.easymport.wizard"
+            name="%importProjectsFromFolder">
+      </wizard>
    </extension>
    
 </plugin>

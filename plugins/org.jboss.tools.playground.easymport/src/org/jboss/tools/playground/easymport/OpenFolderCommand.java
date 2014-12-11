@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2014 Red Hat Inc., and others
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Mickael Istria (Red Hat Inc.) - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.playground.easymport;
 
 import java.io.File;
@@ -53,7 +63,6 @@ public class OpenFolderCommand extends AbstractHandler {
 			return null;
 		}
 		final File directory = new File(res);
-		this.workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		final HashSet<IWorkingSet> workingSets = new HashSet<IWorkingSet>();
 		IStructuredSelection sel = (IStructuredSelection)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 		for (Object o : sel.toList()) {
@@ -61,6 +70,16 @@ public class OpenFolderCommand extends AbstractHandler {
 				workingSets.add((IWorkingSet)o);
 			}
 		}
+		importProjectsFromDirectory(directory, workingSets);
+		return null; //TODO find something more useful to return
+	}
+
+	/**
+	 * @param directory
+	 * @param workingSets
+	 */
+	public void importProjectsFromDirectory(final File directory, final Set<IWorkingSet> workingSets) {
+		this.workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		try {
 			PlatformUI.getWorkbench().getProgressService().run(true, true, new IRunnableWithProgress() {
 				@Override
@@ -91,7 +110,6 @@ public class OpenFolderCommand extends AbstractHandler {
 					"An error happened while try to import " + directory.getAbsolutePath() + ": " + ex.getMessage(),
 					status);
 		}
-		return null; //TODO find something more useful to return
 	}
 
 	private Set<IProject> searchAndImportChildrenProjectsRecursively(IContainer parentContainer, Set<IPath> directoriesToExclude, Set<IWorkingSet> workingSets, IProgressMonitor progressMonitor) throws Exception {
