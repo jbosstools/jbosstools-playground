@@ -62,6 +62,12 @@ public class NestedProjectsContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object getParent(Object element) {
+		if (element instanceof IProject) {
+			IProject project = (IProject)element;
+			if (NestedProjectManager.isShownAsNested(project)) {
+				return NestedProjectManager.getMostDirectOpenContainer(project);
+			}
+		}
 		return null;
 	}
 

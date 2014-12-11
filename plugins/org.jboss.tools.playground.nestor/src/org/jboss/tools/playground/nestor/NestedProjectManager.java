@@ -64,13 +64,30 @@ public class NestedProjectManager {
 			// FIXME: performance: this is probably called often enough to cache the project -> parentProject mapping?
 			for (IProject otherProject : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 				IPath otherLocation = otherProject.getLocation();
-				if (queriedLocation.segmentCount() - otherLocation.segmentCount() >= 1 && otherLocation.isPrefixOf(queriedLocation)) {
+				if (otherProject.isOpen() && queriedLocation.segmentCount() - otherLocation.segmentCount() > 0 && otherLocation.isPrefixOf(queriedLocation)) {
 					/* otherLocation is ancestor of queriedLocation (but not equal) */
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+	
+	public static IFolder getMostDirectOpenContainer(IProject project) {
+		IProject mostDirectParentProject = null;
+		for (IProject other : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+			if (!project.equals(other) && other.isOpen()) {
+				IPath otherLocation = other.getLocation();
+				if ((mostDirectParentProject == null || otherLocation.segmentCount() > mostDirectParentProject.getLocation().segmentCount())
+					&& other.getLocation().isPrefixOf(project.getLocation())) {
+					mostDirectParentProject = other;
+				}
+			}
+		}
+		if (mostDirectParentProject != null) {
+			return mostDirectParentProject.getFolder(project.getLocation().removeLastSegments(1).removeFirstSegments(mostDirectParentProject.getLocation().segmentCount()));
+		}
+		return null;
 	}
 
 }
