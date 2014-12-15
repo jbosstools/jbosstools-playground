@@ -5,12 +5,27 @@
          point="org.jboss.tools.playground.easymport.projectConfigurators">
       <projectConfigurator
             class="org.jboss.tools.playground.easymport.jee.servlet.ServletProjectConfigurator">
+         <activeWhen>
+            <hasFileRecursively
+                  filename="web.xml">
+            </hasFileRecursively>
+         </activeWhen>
       </projectConfigurator>
       <projectConfigurator
             class="org.jboss.tools.playground.easymport.jee.servlet.JPAProjectConfigurator">
+         <activeWhen>
+            <hasFileRecursively
+                  filename="persistence.xml">
+            </hasFileRecursively>
+         </activeWhen>
       </projectConfigurator>
       <projectConfigurator
             class="org.jboss.tools.playground.easymport.jee.servlet.JaxRsConfigurator">
+         <activeWhen>
+            <hasFileRecursively
+                  filename="web.xml">
+            </hasFileRecursively>
+         </activeWhen>
       </projectConfigurator>
    </extension>
 </plugin>

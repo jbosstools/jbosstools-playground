@@ -5,6 +5,11 @@
          point="org.jboss.tools.playground.easymport.projectConfigurators">
       <projectConfigurator
             class="org.jboss.tools.playground.easymport.cordova.CordovaProjectConfigurator">
+         <activeWhen>
+            <hasFileRecursively
+                  filename="config.xml">
+            </hasFileRecursively>
+         </activeWhen>
       </projectConfigurator>
    </extension>
 </plugin>

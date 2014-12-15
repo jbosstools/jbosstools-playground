@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,13 +46,14 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.playground.easymport.extension.ProjectConfigurator;
-import org.jboss.tools.playground.easymport.extension.ProjectConfiguratorExtensionManageer;
+import org.jboss.tools.playground.easymport.extension.ProjectConfiguratorExtensionManager;
 import org.xml.sax.InputSource;
 
 public class OpenFolderCommand extends AbstractHandler {
 
 	private Shell shell;
 	private IWorkspaceRoot workspaceRoot;
+	private ProjectConfiguratorExtensionManager configurationManager;
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -153,16 +155,23 @@ public class OpenFolderCommand extends AbstractHandler {
 		if (progressMonitor.isCanceled()) {
 			return null;
 		}
-		progressMonitor.beginTask("Start configuration of project at " + container.getLocation().toFile().getAbsolutePath(), ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators().size());
+		if (this.configurationManager == null) {
+			this.configurationManager = new ProjectConfiguratorExtensionManager();
+		}
+		Collection<ProjectConfigurator> activeConfigurators = this.configurationManager.getAllActiveProjectConfigurators(container);
+		progressMonitor.beginTask("Start configuration of project at " + container.getLocation().toFile().getAbsolutePath(), activeConfigurators.size());
 		Set<IProject> projectFromCurrentContainer = new HashSet<IProject>();
 		Set<ProjectConfigurator> mainProjectConfigurators = new HashSet<ProjectConfigurator>();
+		Set<ProjectConfigurator> secondaryConfigurators = new HashSet<ProjectConfigurator>();
 		Set<IPath> excludedPaths = new HashSet<IPath>();
-		for (ProjectConfigurator configurator : ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators()) {
+		for (ProjectConfigurator configurator : activeConfigurators) {
 			if (progressMonitor.isCanceled()) {
 				return null;
 			}
 			if (configurator.shouldBeAnEclipseProject(container, progressMonitor)) {
 				mainProjectConfigurators.add(configurator);
+			} else {
+				secondaryConfigurators.add(configurator);
 			}
 			progressMonitor.worked(1);
 		}
@@ -181,9 +190,9 @@ public class OpenFolderCommand extends AbstractHandler {
 			}
 			Set<IProject> allNestedProjects = searchAndImportChildrenProjectsRecursively(project, excludedPaths, workingSets, progressMonitor);
 			excludedPaths.addAll(toPathSet(allNestedProjects));
-			progressMonitor.beginTask("Continue configuration of project at " + container.getLocation().toFile().getAbsolutePath(), ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators().size());
-			for (ProjectConfigurator additionalConfigurator : ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators()) {
-				if (!mainProjectConfigurators.contains(additionalConfigurator) && additionalConfigurator.canConfigure(project, excludedPaths, progressMonitor)) {
+			progressMonitor.beginTask("Continue configuration of project at " + container.getLocation().toFile().getAbsolutePath(), secondaryConfigurators.size());
+			for (ProjectConfigurator additionalConfigurator : secondaryConfigurators) {
+				if (additionalConfigurator.canConfigure(project, excludedPaths, progressMonitor)) {
 					additionalConfigurator.configure(project, excludedPaths, progressMonitor);
 					excludedPaths.addAll(toPathSet(additionalConfigurator.getDirectoriesToIgnore(project, progressMonitor)));
 				}
@@ -195,13 +204,13 @@ public class OpenFolderCommand extends AbstractHandler {
 			projectFromCurrentContainer.addAll(nestedProjects);
 			if (nestedProjects.isEmpty() && isRootProject) {
 				// No sub-project found, so apply available configurators anyway
-				progressMonitor.beginTask("Configuring 'leaf' of project at " + container.getLocation().toFile().getAbsolutePath(), ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators().size());
+				progressMonitor.beginTask("Configuring 'leaf' of project at " + container.getLocation().toFile().getAbsolutePath(), activeConfigurators.size());
 				IProject project = toExistingOrNewProject(container.getLocation().toFile(), workingSets, progressMonitor);
 				projectFromCurrentContainer.add(project);
-				for (ProjectConfigurator additionalConfigurator : ProjectConfiguratorExtensionManageer.getInstance().getAllProjectConfigurators()) {
-					if (additionalConfigurator.canConfigure(project, excludedPaths, progressMonitor)) {
-						additionalConfigurator.configure(project, excludedPaths, progressMonitor);
-						excludedPaths.addAll(toPathSet(additionalConfigurator.getDirectoriesToIgnore(project, progressMonitor)));
+				for (ProjectConfigurator activeConfigurator : activeConfigurators) {
+					if (activeConfigurator.canConfigure(project, excludedPaths, progressMonitor)) {
+						activeConfigurator.configure(project, excludedPaths, progressMonitor);
+						excludedPaths.addAll(toPathSet(activeConfigurator.getDirectoriesToIgnore(project, progressMonitor)));
 					}
 					progressMonitor.worked(1);
 				}

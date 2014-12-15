@@ -10,6 +10,8 @@
       </documentation>
    </annotation>
 
+   <include schemaLocation="schema://org.eclipse.core.expressions/schema/expressionLanguage.exsd"/>
+
    <element name="extension">
       <annotation>
          <appinfo>
@@ -49,6 +51,9 @@
 
    <element name="projectConfigurator">
       <complexType>
+         <sequence>
+            <element ref="activeWhen" minOccurs="0" maxOccurs="1"/>
+         </sequence>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
@@ -57,6 +62,70 @@
                <appinfo>
                   <meta.attribute kind="java" basedOn=":org.jboss.tools.easymport.extension.ProjectConfigurator"/>
                </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="activeWhen">
+      <annotation>
+         <documentation>
+            A core Expression that controls the enablement of the Project Configuration. Will be checked before loading Project Configuration
+         </documentation>
+      </annotation>
+      <complexType>
+         <choice minOccurs="0" maxOccurs="1">
+            <element ref="not"/>
+            <element ref="or"/>
+            <element ref="and"/>
+            <element ref="instanceof"/>
+            <element ref="test"/>
+            <element ref="systemTest"/>
+            <element ref="equals"/>
+            <element ref="count"/>
+            <element ref="with"/>
+            <element ref="resolve"/>
+            <element ref="adapt"/>
+            <element ref="iterate"/>
+            <element ref="reference"/>
+            <element ref="hasFile"/>
+            <element ref="hasFileRecursively"/>
+            <element ref="hasFileWithSuffixRecursively"/>
+         </choice>
+      </complexType>
+   </element>
+
+   <element name="hasFile">
+      <complexType>
+         <attribute name="path" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="hasFileRecursively">
+      <complexType>
+         <attribute name="filename" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="hasFileWithSuffixRecursively">
+      <complexType>
+         <attribute name="suffix" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
             </annotation>
          </attribute>
       </complexType>
