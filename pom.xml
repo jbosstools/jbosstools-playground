@@ -16,8 +16,21 @@
 	</properties>
 	<modules>
 		<module>plugins</module>
-		<module>tests</module>
 		<module>features</module>
 		<module>site</module>
 	</modules>
+
+	<!-- TODO: Delete this block when TP contains a 4.5.M5 platform -->
+	<repositories>
+		<repository>
+			<layout>p2</layout>
+			<id>platfrom-recent</id>
+			<url>http://download.eclipse.org/eclipse/updates/4.5-N-builds</url>
+		</repository>
+		<repository>
+			<id>eclipse-thym</id>
+			<layout>p2</layout>
+			<url>${eclipse-thym-site}</url>
+		</repository>
+	</repositories>
 </project>
