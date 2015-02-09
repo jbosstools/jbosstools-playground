@@ -16,21 +16,21 @@
 	</properties>
 	<modules>
 		<module>plugins</module>
+		<module>deprecated</module>
 		<module>features</module>
 		<module>site</module>
 	</modules>
 
-	<!-- TODO: Delete this block when TP contains a 4.5.M5 platform -->
 	<repositories>
-		<repository>
-			<layout>p2</layout>
-			<id>platfrom-recent</id>
-			<url>http://download.eclipse.org/eclipse/updates/4.5-N-builds</url>
-		</repository>
 		<repository>
 			<id>eclipse-thym</id>
 			<layout>p2</layout>
 			<url>${eclipse-thym-site}</url>
+		</repository>
+		<repository>
+			<id>org.eclipse.e4.ui-snapshots</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/e4/snapshots/org.eclipse.e4.ui</url>
 		</repository>
 	</repositories>
 </project>

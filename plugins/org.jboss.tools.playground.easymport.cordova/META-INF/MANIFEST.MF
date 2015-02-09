@@ -4,7 +4,7 @@ Bundle-Name: Easymport :: Cordova support
 Bundle-SymbolicName: org.jboss.tools.playground.easymport.cordova;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: JBoss, by Red Hat
-Require-Bundle: org.jboss.tools.playground.easymport,
+Require-Bundle: org.eclipse.e4.ui.importer,
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,

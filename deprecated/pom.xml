@@ -8,16 +8,13 @@
 		<version>4.3.0-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools.playground</groupId>
-	<artifactId>plugins</artifactId>
+	<artifactId>deprecated</artifactId>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>org.jboss.tools.playground.naturist</module>
-		<module>org.jboss.tools.playground.easymport.jee</module>
-		<module>org.jboss.tools.playground.easymport.maven</module>
-		<module>org.jboss.tools.playground.easymport.javascript</module>
-		<module>org.jboss.tools.playground.easymport.cordova</module>
-		<module>org.jboss.tools.playground.autosave</module>
-		<module>org.jboss.tools.playground.maven.autoupdate</module>
+		<module>org.jboss.tools.playground.nestor</module>
+		<module>org.jboss.tools.playground.easymport</module>
+		<module>org.jboss.tools.playground.easymport.java</module>
+		<module>org.jboss.tools.playground.easymport.pde</module>
 	</modules>
 </project>

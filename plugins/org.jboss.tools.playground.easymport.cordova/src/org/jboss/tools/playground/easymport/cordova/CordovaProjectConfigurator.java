@@ -11,7 +11,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.thym.core.platform.PlatformConstants;
-import org.jboss.tools.playground.easymport.extension.ProjectConfigurator;
+import org.eclipse.ui.wizards.datatransfer.ProjectConfigurator;
 
 public class CordovaProjectConfigurator implements ProjectConfigurator {
 

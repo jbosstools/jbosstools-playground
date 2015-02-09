@@ -17,13 +17,13 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
 import org.eclipse.jst.j2ee.web.project.facet.WebFacetInstallDataModelProvider;
+import org.eclipse.ui.wizards.datatransfer.ProjectConfigurator;
+import org.eclipse.ui.wizards.datatransfer.RecursiveFileFinder;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelFactory;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
-import org.jboss.tools.playground.easymport.extension.ProjectConfigurator;
-import org.jboss.tools.playground.easymport.extension.RecursiveFileFinder;
 import org.jboss.tools.playground.easymport.jee.Activator;
 import org.jboss.tools.playground.easymport.jee.Messages;
 

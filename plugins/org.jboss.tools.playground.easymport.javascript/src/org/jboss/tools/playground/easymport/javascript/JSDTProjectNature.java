@@ -18,10 +18,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.ui.wizards.datatransfer.ProjectConfigurator;
 import org.eclipse.wst.jsdt.core.IIncludePathEntry;
 import org.eclipse.wst.jsdt.core.IJavaScriptProject;
 import org.eclipse.wst.jsdt.core.JavaScriptCore;
-import org.jboss.tools.playground.easymport.extension.ProjectConfigurator;
 
 public class JSDTProjectNature implements ProjectConfigurator {
 	
