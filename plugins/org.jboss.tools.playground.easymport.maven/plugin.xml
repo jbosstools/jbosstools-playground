@@ -4,7 +4,8 @@
    <extension
          point="org.eclipse.e4.ui.importer.projectConfigurators">
       <projectConfigurator
-            class="org.jboss.tools.playground.easymport.maven.MavenProjectConfigurator">
+            class="org.jboss.tools.playground.easymport.maven.MavenProjectConfigurator"
+            label="Maven">
          <activeWhen>
             <hasFile
                   path="pom.xml">

@@ -4,7 +4,8 @@
    <extension
          point="org.eclipse.e4.ui.importer.projectConfigurators">
       <projectConfigurator
-            class="org.jboss.tools.playground.easymport.jee.servlet.ServletProjectConfigurator">
+            class="org.jboss.tools.playground.easymport.jee.servlet.ServletProjectConfigurator"
+            label="Java EE Servlet">
          <activeWhen>
             <hasFileRecursively
                   filename="web.xml">
@@ -12,7 +13,8 @@
          </activeWhen>
       </projectConfigurator>
       <projectConfigurator
-            class="org.jboss.tools.playground.easymport.jee.servlet.JPAProjectConfigurator">
+            class="org.jboss.tools.playground.easymport.jee.servlet.JPAProjectConfigurator"
+            label="Java EE JPA">
          <activeWhen>
             <hasFileRecursively
                   filename="persistence.xml">
@@ -20,7 +22,8 @@
          </activeWhen>
       </projectConfigurator>
       <projectConfigurator
-            class="org.jboss.tools.playground.easymport.jee.servlet.JaxRsConfigurator">
+            class="org.jboss.tools.playground.easymport.jee.servlet.JaxRsConfigurator"
+            label="Java EE Jax-RS">
          <activeWhen>
             <hasFileRecursively
                   filename="web.xml">
