@@ -166,11 +166,6 @@ public class JSDTProjectNature implements ProjectConfigurator {
 					ex));
 		}
 	}
-	
-	@Override
-	public String getLabel() {
-		return Messages.jsdtConfiguratorLabel;
-	}
 
 	@Override
 	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor) {

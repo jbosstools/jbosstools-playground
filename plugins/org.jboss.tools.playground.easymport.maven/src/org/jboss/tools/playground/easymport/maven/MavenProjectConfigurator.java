@@ -57,11 +57,6 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public String getLabel() {
-		return Messages.mavenConfiguratorLabel;
-	}
-
-	@Override
 	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor) {
 		IFile pomFile = container.getFile(new Path(IMavenConstants.POM_FILE_NAME));
 		if (!pomFile.exists()) {

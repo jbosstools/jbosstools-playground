@@ -25,7 +25,6 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.playground.easymport.jee.Activator;
-import org.jboss.tools.playground.easymport.jee.Messages;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -79,11 +78,6 @@ public class ServletProjectConfigurator implements ProjectConfigurator {
 					ex.getMessage(),
 					ex));
 		}
-	}
-	
-	@Override
-	public String getLabel() {
-		return Messages.servletConfiguratorLabel;
 	}
 
 	@Override

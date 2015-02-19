@@ -25,7 +25,6 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.playground.easymport.jee.Activator;
-import org.jboss.tools.playground.easymport.jee.Messages;
 
 public class JaxRsConfigurator implements ProjectConfigurator {
 
@@ -86,11 +85,6 @@ public class JaxRsConfigurator implements ProjectConfigurator {
 					ex));
 		}
 
-	}
-
-	@Override
-	public String getLabel() {
-		return Messages.jaxrsConfiguratorLabel;
 	}
 
 	@Override

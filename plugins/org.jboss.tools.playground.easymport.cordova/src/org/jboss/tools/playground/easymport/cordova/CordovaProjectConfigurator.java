@@ -40,11 +40,6 @@ public class CordovaProjectConfigurator implements ProjectConfigurator {
 			}
 		});
 	}
-	
-	@Override
-	public String getLabel() {
-		return Messages.cordovaConfiguratorLabel;
-	}
 
 	@Override
 	public Set<IFolder> getDirectoriesToIgnore(IProject project, IProgressMonitor monitor) {
