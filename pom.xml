@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jboss.tools</groupId>
 		<artifactId>parent</artifactId>
-		<version>4.3.0.Alpha1-SNAPSHOT</version>
+		<version>4.3.0.Alpha2-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools</groupId>
 	<artifactId>playground</artifactId>
@@ -25,7 +25,7 @@
 		<repository>
 			<id>eclipse-thym</id>
 			<layout>p2</layout>
-			<url>${eclipse-thym-site}</url>
+			<url>http://download.eclipse.org/thym/snapshots</url>
 		</repository>
 		<repository>
 			<id>org.eclipse.e4.ui-snapshots</id>
