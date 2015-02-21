@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: JBoss, by Red Hat
 Require-Bundle: org.eclipse.e4.ui.importer,
  org.eclipse.e4.ui.importer.java,
- org.jboss.tools.playground.easymport.java,
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
