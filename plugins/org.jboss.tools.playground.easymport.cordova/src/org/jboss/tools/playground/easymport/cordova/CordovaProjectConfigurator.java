@@ -1,17 +1,24 @@
 package org.jboss.tools.playground.easymport.cordova;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.wizard.IWizard;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.thym.core.natures.HybridAppNature;
 import org.eclipse.thym.core.platform.PlatformConstants;
 import org.eclipse.ui.wizards.datatransfer.ProjectConfigurator;
+import org.eclipse.wst.jsdt.core.JavaScriptCore;
 
 public class CordovaProjectConfigurator implements ProjectConfigurator {
 
@@ -33,12 +40,29 @@ public class CordovaProjectConfigurator implements ProjectConfigurator {
 
 	@Override
 	public void configure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
-		Display.getDefault().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Cordova config not yet ready", "Sorry, but Cordova configuration is not yet ready. But showing Cordova project detection was cool for a demo, wasn't it?");
+		try {
+			IProjectDescription description = project.getDescription();
+		    String[] oldNatures = description.getNatureIds();
+		    List<String> natureList =  new ArrayList<String>();
+		    natureList.addAll(Arrays.asList(oldNatures));
+		    
+			if( !project.hasNature(HybridAppNature.NATURE_ID ) ){
+				natureList.add(HybridAppNature.NATURE_ID);
 			}
-		});
+			
+			if( !project.hasNature( JavaScriptCore.NATURE_ID )){
+				natureList.add(JavaScriptCore.NATURE_ID);
+			}
+			
+		    description.setNatureIds(natureList.toArray(new String[natureList.size()]));
+		    project.setDescription(description, monitor);
+		} catch (CoreException ex) {
+			Activator.getDefault().getLog().log(new Status(
+					IStatus.ERROR,
+					Activator.getDefault().getBundle().getSymbolicName(),
+					ex.getMessage(),
+					ex));
+		}
 	}
 
 	@Override
