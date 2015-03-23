@@ -3,12 +3,10 @@ package org.jboss.tools.playground.easymport.maven;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.maven.model.Model;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -25,7 +23,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 
 	@Override
 	public boolean canConfigure(IProject project, Set<IPath> ignoredPaths, IProgressMonitor monitor) {
-		return shouldBeAnEclipseProject(project, monitor); 
+		return shouldBeAnEclipseProject(project, monitor);
 	}
 
 	@Override
@@ -37,7 +35,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	@Override
 	public void configure(IProject project, Set<IPath> excludedDirectories, IProgressMonitor monitor) {
 		// copied from org.eclipse.m2e.core.ui.internal.actions.EnableNatureAction
-		
+
 		ResolverConfiguration configuration = new ResolverConfiguration();
         configuration.setResolveWorkspaceProjects(true);
         IProjectConfigurationManager configurationManager = MavenPlugin.getProjectConfigurationManager();
@@ -59,16 +57,18 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	@Override
 	public boolean shouldBeAnEclipseProject(IContainer container, IProgressMonitor monitor) {
 		IFile pomFile = container.getFile(new Path(IMavenConstants.POM_FILE_NAME));
-		if (!pomFile.exists()) {
-			return false;
-		}
-		try {
-			Model pomModel = MavenPlugin.getMavenModelManager().readMavenModel(pomFile);
-			return !pomModel.getPackaging().equals("pom"); // TODO find symbol for "pom"
-		} catch (CoreException ex) {
-			Activator.log(IStatus.ERROR, "Could not parse pom file " + pomFile.getLocation(), ex);
-			return false;
-		}
+		return pomFile.exists();
+		// debated on m2e-dev: https://dev.eclipse.org/mhonarc/lists/m2e-dev/msg01852.html
+//		if (!pomFile.exists()) {
+//			return false;
+//		}
+//		try {
+//			Model pomModel = MavenPlugin.getMavenModelManager().readMavenModel(pomFile);
+//			return !pomModel.getPackaging().equals("pom"); // TODO find symbol for "pom"
+//		} catch (CoreException ex) {
+//			Activator.log(IStatus.ERROR, "Could not parse pom file " + pomFile.getLocation(), ex);
+//			return false;
+//		}
 	}
 
 	@Override
