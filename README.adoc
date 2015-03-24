@@ -85,4 +85,4 @@ Reference Eclipse bug: https://bugs.eclipse.org/335720
 [NOTE]
 With Eclipse ticket https://bugs.eclipse.org/427768 , Nestor has been migrated
 to Eclipse Platform UI, and Nested view of projects in _Project Explorer_ will
-be available by default in Eclipse 4.5 (Mars) M5 and later.
+be available by default in Eclipse 4.5 (Mars) M5 and later: https://www.eclipse.org/eclipse/news/4.5/M5/#nested-projects
