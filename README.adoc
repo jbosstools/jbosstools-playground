@@ -14,6 +14,9 @@ If you don't know how to do that, please read following documentation http://hel
 
 === Easymport: Easy and smart Open/Import of a project
 
+[NOTE]
+This is progressively moving to the related Eclipse projects. Please see https://wiki.eclipse.org/E4/UI/Smart_Import
+
 Aren't you sick of this messy "Import" wizard you see in Eclipse? Can't
 the IDE figure out what kind of project you're importing by itself? Yes,
 it does. This plugins include a new _File > Open Project/Folder_ menu
@@ -50,13 +53,6 @@ configuration.
 
 Reference Eclipse bug: http://bugs.eclipse.org/421930
 
-=== Nestor: View Nested Projects
-
-[NOTE]
-With Eclipse ticket https://bugs.eclipse.org/427768 , Nestor has been migrated
-to Eclipse Platform UI, and Nested view of projects in _Project Explorer_ will
-be available by default in Eclipse 4.5 (Mars) M5 and later.
-
 === Naturist: Edit project natures
 
 There are cases where you really want to hack your project, and are
@@ -72,6 +68,10 @@ Reference Eclipse bug: https://bugs.eclipse.org/102527
 
 === Auto-update out-of-date Maven project configuration
 
+[NOTE]
+This has been integrated in m2e 1.6, and will be integrated in Eclipse IDE starting
+from Mars M6.
+
 Tired of seeing these "Project configuration is out-of-date" errors whenever 
 you tweak your pom.xml? This plugin will automatically do the 
 `Maven` > `Update project configuration` for you. *Currently* the only way to 
@@ -79,3 +79,10 @@ disable the plugin is to uncheck it under from `Preferences` > `Startup and Shut
 and restart the workspace. 
 
 Reference Eclipse bug: https://bugs.eclipse.org/335720
+
+=== Nestor: View Nested Projects
+
+[NOTE]
+With Eclipse ticket https://bugs.eclipse.org/427768 , Nestor has been migrated
+to Eclipse Platform UI, and Nested view of projects in _Project Explorer_ will
+be available by default in Eclipse 4.5 (Mars) M5 and later.
