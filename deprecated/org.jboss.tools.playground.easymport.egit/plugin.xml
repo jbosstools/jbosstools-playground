@@ -5,7 +5,7 @@
          point="org.eclipse.ui.importWizards">
       <wizard
             category="org.eclipse.egit.ui.internal.clone.gitclonecategory"
-            class="org.eclipse.egit.ui.internal.clone.EasymportGitWizard"
+            class="org.jboss.tools.playground.eaymport.egit.EasymportGitWizard"
             id="org.jboss.tools.playground.eaymport.egit.wizard"
             name="%EasymportGitWizard_label">
       </wizard>

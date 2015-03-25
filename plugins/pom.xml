@@ -17,7 +17,6 @@
 		<module>org.jboss.tools.playground.easymport.maven</module>
 		<module>org.jboss.tools.playground.easymport.javascript</module>
 		<module>org.jboss.tools.playground.easymport.cordova</module>
-		<module>org.jboss.tools.playground.easymport.egit</module>
 		<module>org.jboss.tools.playground.autosave</module>
 		<module>org.jboss.tools.playground.maven.autoupdate</module>
 	</modules>

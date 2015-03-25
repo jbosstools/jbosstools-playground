@@ -32,5 +32,10 @@
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/e4/snapshots/org.eclipse.e4.ui</url>
 		</repository>
+		<repository>
+			<id>egit-4.0.m1</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/egit/staging/v4.0.0.201503231230-m1</url>
+		</repository>
 	</repositories>
 </project>

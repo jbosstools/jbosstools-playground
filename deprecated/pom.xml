@@ -16,5 +16,6 @@
 		<module>org.jboss.tools.playground.easymport</module>
 		<module>org.jboss.tools.playground.easymport.java</module>
 		<module>org.jboss.tools.playground.easymport.pde</module>
+		<module>org.jboss.tools.playground.easymport.egit</module>
 	</modules>
 </project>
