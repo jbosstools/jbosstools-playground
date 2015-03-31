@@ -16,6 +16,7 @@
 		<module>org.jboss.tools.playground.easymport</module>
 		<module>org.jboss.tools.playground.easymport.java</module>
 		<module>org.jboss.tools.playground.easymport.pde</module>
-		<module>org.jboss.tools.playground.easymport.egit</module>
+		<!-- Doesn't build since we can't express dependency on the fragment -->
+		<!--module>org.jboss.tools.playground.easymport.egit</module-->
 	</modules>
 </project>

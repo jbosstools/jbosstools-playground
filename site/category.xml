@@ -4,6 +4,11 @@
       JBoss Tools Playground are experimental plugins made by the
  JBoss Tools team for various improvements to base Eclipse functionallity.
    </description>
+   <category-def name="JBoss Tools Playground" label="JBoss Tools Playground">
+      <description>
+         Generic addition for project management in Eclipse.
+      </description>
+   </category-def>
    <bundle id="org.jboss.tools.playground.naturist" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
@@ -19,15 +24,14 @@
    <bundle id="org.jboss.tools.playground.easymport.cordova" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
-   <bundle id="org.jboss.tools.playground.easymport.egit" version="0.0.0">
-      <category name="JBoss Tools Playground"/>
-   </bundle>
    <bundle id="org.jboss.tools.playground.autosave" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
    <bundle id="org.jboss.tools.playground.maven.autoupdate" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
+
+   <category-def name="Deprecated" label="Deprecated (moved to Eclipse Platform or e4)"/>
    <bundle id="org.jboss.tools.playground.nestor" version="0.0.0">
       <category name="Deprecated"/>
    </bundle>
@@ -40,10 +44,7 @@
    <bundle id="org.jboss.tools.playground.easymport.pde" version="0.0.0">
       <category name="Deprecated"/>
    </bundle>
-   <category-def name="JBoss Tools Playground" label="JBoss Tools Playground">
-      <description>
-         Generic addition for project management in Eclipse.
-      </description>
-   </category-def>
-   <category-def name="Deprecated" label="Deprecated (moved to Eclipse Platform or e4)"/>
+   <!--bundle id="org.jboss.tools.playground.easymport.egit" version="0.0.0">
+      <category name="Deprecated"/>
+   </bundle-->
 </site>
