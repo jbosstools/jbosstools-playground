@@ -20,11 +20,4 @@
 		<module>site</module>
 	</modules>
 
-	<repositories>
-		<repository>
-			<id>thym</id>
-			<layout>p2</layout>
-			<url>http://download.jboss.org/jbosstools/updates/requirements/thym/0.3.0-SNAPSHOT-201504101636</url>
-		</repository>
-	</repositories>
 </project>

@@ -21,9 +21,6 @@
    <bundle id="org.jboss.tools.playground.easymport.javascript" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
-   <bundle id="org.jboss.tools.playground.easymport.cordova" version="0.0.0">
-      <category name="JBoss Tools Playground"/>
-   </bundle>
    <bundle id="org.jboss.tools.playground.autosave" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
