@@ -43,8 +43,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	        if(!project.hasNature(IMavenConstants.NATURE_ID)) {
 	        	configurationManager.enableMavenNature(project, configuration, monitor);
 	        }
-	        configurationManager.updateProjectConfiguration(project, monitor);
-	        // TODO (if not done automatically), invoke all AbstractProjectConfigurator
+	        // configurationManager.updateProjectConfiguration(project, monitor);
         } catch (Exception ex) {
 			Activator.getDefault().getLog().log(new Status(
 					IStatus.ERROR,
