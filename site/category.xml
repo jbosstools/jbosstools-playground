@@ -27,6 +27,9 @@
    <bundle id="org.jboss.tools.playground.maven.autoupdate" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
+   <bundle id="org.jboss.tools.playground.bower" version="0.0.0">
+      <category name="JBoss Tools Bower"/>
+   </bundle>
 
    <category-def name="Deprecated" label="Deprecated (moved to Eclipse Platform or e4)"/>
    <bundle id="org.jboss.tools.playground.nestor" version="0.0.0">

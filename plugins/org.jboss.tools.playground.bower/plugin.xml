@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+       point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+          id="org.jboss.tools.playground.bower.bowerLaunchConfigurationType"
+          delegate="org.jboss.tools.playground.bower.internal.launch.type.BowerLaunchConfig"
+          modes="run"
+          name="Bower">
+      </launchConfigurationType>
+   </extension>
+    <extension
+       point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+          configTypeID="org.jboss.tools.playground.bower.bowerLaunchConfigurationType"
+          icon="icons/bower_16.png"
+          id="rg.jboss.tools.playground.bower.bowerLaunchConfigurationTypeImage">
+    	</launchConfigurationTypeImage>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+	    <propertyTester
+	      	id="org.jboss.tools.playground.bower.tester"
+	      	type="org.eclipse.core.resources.IResource"
+	      	namespace="org.jboss.tools.playground.bower"
+	      	properties="isBowerInit"
+	      	class="org.jboss.tools.playground.bower.internal.launch.tester.BowerTester">
+	    </propertyTester>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut
+            class="org.jboss.tools.playground.bower.internal.launch.shortcut.BowerUpdate"
+            id="org.jboss.tools.playground.bower.update"
+            label="Bower Update"
+            icon="icons/bower_16.png"
+            modes="run">
+        <contextualLaunch>
+            <enablement>
+                <with variable="selection">
+                    <count value="1"/>
+                    <iterate>
+                        <adapt  type="org.eclipse.core.resources.IResource">
+	                        <test property="org.jboss.tools.playground.bower.isBowerInit" 
+	                           	forcePluginActivation="true"/>
+                        </adapt> 
+                    </iterate>
+                </with>
+            </enablement>
+         </contextualLaunch>
+      </shortcut>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut
+            class="org.jboss.tools.playground.bower.internal.launch.shortcut.BowerInit"
+            id="org.jboss.tools.playground.bower.init"
+            label="Bower Init"
+            icon="icons/bower_16.png"
+            modes="run">
+        <contextualLaunch>
+            <enablement>
+                <with variable="selection">
+                    <count value="1"/>
+                    <iterate>
+                          <adapt type="org.eclipse.core.resources.IResource">
+                              <and>
+                                    <not>
+                                       <test property="org.jboss.tools.playground.bower.isBowerInit"
+                                           forcePluginActivation="true"/>
+                                    </not>
+                                    <test property="org.eclipse.core.resources.projectNature"
+                                          value="org.eclipse.wst.jsdt.core.jsNature" />
+                               </and>
+                           </adapt>
+                    </iterate>
+                </with>
+            </enablement>
+         </contextualLaunch>
+      </shortcut>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.jboss.tools.common.model.ui.MainPreferencePage"
+            class="org.jboss.tools.playground.bower.internal.preferences.BowerPreferencePage"
+            id="org.jboss.tools.playground.bower.BowerPreferences"
+            name="Bower">
+      </page>
+   </extension>
+   <extension
+      point="org.eclipse.core.runtime.preferences">
+	   <initializer
+	         class="org.jboss.tools.playground.bower.internal.preferences.BowerPreferenceInitializer">
+	   </initializer>
+	</extension>
+</plugin>
