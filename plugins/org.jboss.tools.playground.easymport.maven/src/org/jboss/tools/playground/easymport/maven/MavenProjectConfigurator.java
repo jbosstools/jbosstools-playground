@@ -43,6 +43,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	        if(!project.hasNature(IMavenConstants.NATURE_ID)) {
 	        	configurationManager.enableMavenNature(project, configuration, monitor);
 	        }
+	        // Currently skipped as it takes too much time
 	        // configurationManager.updateProjectConfiguration(project, monitor);
         } catch (Exception ex) {
 			Activator.getDefault().getLog().log(new Status(
@@ -73,7 +74,9 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	@Override
 	public Set<IFolder> getDirectoriesToIgnore(IProject project, IProgressMonitor monitor) {
 		Set<IFolder> res = new HashSet<IFolder>();
-		res.add(project.getFolder("target")); // TODO: get this value from pom.
+		// TODO: get these values from pom/project config
+		res.add(project.getFolder("src"));
+		res.add(project.getFolder("target"));
 		return res;
 	}
 
