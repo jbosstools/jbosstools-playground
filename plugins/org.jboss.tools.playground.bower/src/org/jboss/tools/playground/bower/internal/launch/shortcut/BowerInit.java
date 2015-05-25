@@ -22,7 +22,7 @@ public class BowerInit extends GenericBowerLaunch {
 	
 	@Override
 	protected String getCommandArguments() {
-		return BowerCommands.INIT.getValue(); 
+		return BowerCommands.INIT.getValue() + " --config.interactive";  //$NON-NLS-1$
 	}
 
 	@Override

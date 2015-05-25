@@ -21,7 +21,7 @@ import org.jboss.tools.playground.bower.internal.util.PlatformUtil;
  * @author "Ilya Buziuk (ibuziuk)"
  */
 public class BowerPreferenceHolder {
-	public static final String PREF_NPM_LOCATION = "Pref_npm_Location"; //$NON-NLS-1$
+	public static final String PREF_NPM_LOCATION = "Pref_node_modules_Location"; //$NON-NLS-1$
 
 	public static String getNodeLocation() {
 		return getBowerPreferences().getString(PREF_NPM_LOCATION);
@@ -32,11 +32,25 @@ public class BowerPreferenceHolder {
 	}
 
 	public static String getBowerExecutableLocation() {
-		String bower = (PlatformUtil.isWindows()) ? BowerConstants.BOWER_CMD : BowerConstants.BOWER;
-		File bowerExecutable = new File(getBowerPreferences().getString(PREF_NPM_LOCATION), bower);
-		if (bowerExecutable != null && bowerExecutable.exists()) {
-			return bowerExecutable.getAbsolutePath();
+		String bowerExecutable = (PlatformUtil.isWindows()) ? BowerConstants.BOWER_CMD : BowerConstants.BOWER; // "bower.cmd" (Windows) / "bower" (Linux & Mac OS)
+		File nodeModules = new File(getBowerPreferences().getString(PREF_NPM_LOCATION)); // "node_modules" dir
+		if (nodeModules != null && nodeModules.exists()) {
+			String bowerRoot;
+			if (PlatformUtil.isWindows()) {
+				// Bower Root on Windows - 'npm' folder (on the same level with "node_modules")
+				bowerRoot = nodeModules.getAbsoluteFile().getParentFile().getAbsolutePath();
+			} else {
+				// Bower Root on Linux & Mac Os - "/node_modules/bower/bin"
+				bowerRoot = nodeModules.getAbsolutePath() + File.separator + BowerConstants.BOWER + File.separator + BowerConstants.BIN;
+			}
+			
+			File bower = new File(bowerRoot, bowerExecutable);
+			if (bower != null && bower.exists()) {
+				return bower.getAbsolutePath();
+			}
+		
 		}
+
 		return null;
 	}
 

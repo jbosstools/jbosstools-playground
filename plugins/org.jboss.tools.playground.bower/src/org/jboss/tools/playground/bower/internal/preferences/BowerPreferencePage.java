@@ -76,9 +76,8 @@ public class BowerPreferencePage extends FieldEditorPreferencePage implements IW
 			}
 			
 			File selectedFile = new File(filename);
-			File nodeModules = new File(selectedFile, BowerConstants.NODE_MODULES);
-			if (nodeModules == null || !nodeModules.exists()) {
-				setErrorMessage("Not valid npm location"); //$NON-NLS-1$
+			if (selectedFile == null || !selectedFile.exists() || !BowerConstants.NODE_MODULES.equals(selectedFile.getName())) {
+				setErrorMessage("Not valid node_modules location"); //$NON-NLS-1$
 				return false;
 			}
 			
