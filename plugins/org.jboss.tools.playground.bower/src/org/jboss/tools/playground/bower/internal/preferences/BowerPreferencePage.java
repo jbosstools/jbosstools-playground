@@ -20,6 +20,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.jboss.tools.playground.bower.internal.Activator;
 import org.jboss.tools.playground.bower.internal.BowerConstants;
+import org.jboss.tools.playground.bower.internal.Messages;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"
@@ -48,7 +49,7 @@ public class BowerPreferencePage extends FieldEditorPreferencePage implements IW
 
 	@Override
 	protected void createFieldEditors() {
-		bowerEditor = new NpmHomeFieldEditor(BowerConstants.PREF_NPM_LOCATION, "npm Location", getFieldEditorParent()); //$NON-NLS-1$
+		bowerEditor = new NpmHomeFieldEditor(BowerConstants.PREF_NPM_LOCATION, Messages.BowerPreferencePage_LocationLabel, getFieldEditorParent());
 		addField(bowerEditor);
 	}
 		
@@ -65,7 +66,7 @@ public class BowerPreferencePage extends FieldEditorPreferencePage implements IW
 			String filename = getTextControl().getText();
 			filename = filename.trim();
 			if (filename.isEmpty()) {
-				this.getPage().setMessage("A location for the npm must be specified", IStatus.WARNING); //$NON-NLS-1$
+				this.getPage().setMessage(Messages.BowerPreferencePage_NotSpecifiedWarning, IStatus.WARNING); 
 				return true;
 			} else {
 				// clear the warning message
@@ -78,13 +79,13 @@ public class BowerPreferencePage extends FieldEditorPreferencePage implements IW
 			
 			File selectedFile = new File(filename);
 			if (selectedFile == null || !selectedFile.exists() || !BowerConstants.NPM.equals(selectedFile.getName())) {
-				setErrorMessage("Not valid npm location"); //$NON-NLS-1$
+				setErrorMessage(Messages.BowerPreferencePage_NotValidError); 
 				return false;
 			}
 			
 			File bower = new File(selectedFile, BowerConstants.BOWER);
 			if (bower == null || !bower.exists()) {
-				setErrorMessage("bower must be installed. Visit <a href='http://bower.io/docs/api/'>http://bower.io/docs/api/</a>"); //$NON-NLS-1$
+				setErrorMessage(Messages.BowerPreferencePage_NotInstalledError);
 				return false;
 			}
 			return true;
