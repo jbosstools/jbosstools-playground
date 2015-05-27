@@ -26,12 +26,11 @@ import org.jboss.tools.playground.bower.internal.BowerConstants;
  */
 public class BowerPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 	public static final String PAGE_ID = "org.jboss.tools.playground.bower.internal.preferences.BowerPreferencesPage"; //$NON-NLS-1$
-	private BowerHomeFieldEditor bowerEditor;
+	private NpmHomeFieldEditor bowerEditor;
 	
 	public BowerPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("npm Settings for Bower Support"); //$NON-NLS-1$
 	}
 	
 	@Override
@@ -42,22 +41,24 @@ public class BowerPreferencePage extends FieldEditorPreferencePage implements IW
 	public boolean performOk() {
 		super.performOk();
 		String filePath = bowerEditor.getTextControl(getFieldEditorParent()).getText();
-		BowerPreferenceHolder.setNodeLocation(new File(filePath.trim()).getAbsolutePath());
+		BowerPreferenceHolder.setNpmLocation(new File(filePath.trim()).getAbsolutePath());
 		return true;
 	}
+	
 
 	@Override
 	protected void createFieldEditors() {
-		bowerEditor = new BowerHomeFieldEditor("npm Home", "npm Location", getFieldEditorParent()); //$NON-NLS-1$ //$NON-NLS-2$
+		bowerEditor = new NpmHomeFieldEditor(BowerConstants.PREF_NPM_LOCATION, "npm Location", getFieldEditorParent()); //$NON-NLS-1$
 		addField(bowerEditor);
 	}
-	
-	private static class BowerHomeFieldEditor extends DirectoryFieldEditor {
 		
-		public BowerHomeFieldEditor(String key, String label, Composite composite) {
-			super(key, label, composite);
+	private static class NpmHomeFieldEditor extends DirectoryFieldEditor {
+		
+		public NpmHomeFieldEditor(String name, String label, Composite composite) {
+			super(name, label, composite);
 			setEmptyStringAllowed(true);
 		}
+	
 		
 		@Override
 		protected boolean doCheckState() {
@@ -76,8 +77,8 @@ public class BowerPreferencePage extends FieldEditorPreferencePage implements IW
 			}
 			
 			File selectedFile = new File(filename);
-			if (selectedFile == null || !selectedFile.exists() || !BowerConstants.NODE_MODULES.equals(selectedFile.getName())) {
-				setErrorMessage("Not valid node_modules location"); //$NON-NLS-1$
+			if (selectedFile == null || !selectedFile.exists() || !BowerConstants.NPM.equals(selectedFile.getName())) {
+				setErrorMessage("Not valid npm location"); //$NON-NLS-1$
 				return false;
 			}
 			

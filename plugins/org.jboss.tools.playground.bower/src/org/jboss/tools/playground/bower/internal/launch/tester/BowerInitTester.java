@@ -10,20 +10,20 @@
  ******************************************************************************/
 package org.jboss.tools.playground.bower.internal.launch.tester;
 
+import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.playground.bower.internal.Activator;
 import org.jboss.tools.playground.bower.internal.util.BowerUtil;
-import org.eclipse.core.expressions.PropertyTester;
 
 /**
  * @author Ilya Buziuk (ibuziuk)
  */
-public final class BowerTester extends PropertyTester {
+public final class BowerInitTester extends PropertyTester {
 	private static final String IS_BOWER_INIT = "isBowerInit"; //$NON-NLS-1$
 
-	public BowerTester() {
+	public BowerInitTester() {
 	}
 
 	@Override

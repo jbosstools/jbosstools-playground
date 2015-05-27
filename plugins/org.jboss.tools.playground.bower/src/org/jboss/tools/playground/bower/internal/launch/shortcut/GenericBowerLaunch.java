@@ -23,7 +23,9 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.jboss.tools.playground.bower.internal.Activator;
+import org.jboss.tools.playground.bower.internal.handler.UIErrorHandler;
 import org.jboss.tools.playground.bower.internal.preferences.BowerPreferenceHolder;
+import org.jboss.tools.playground.bower.internal.util.BowerUtil;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"
@@ -36,8 +38,16 @@ public abstract class GenericBowerLaunch implements ILaunchShortcut {
 		if (selection instanceof IStructuredSelection) {
 			 Object element = ((IStructuredSelection)selection).getFirstElement();getClass();
 			 if (element != null && element instanceof IResource) {
-				 try {
-					execute(getWorkingDirectory((IResource) element));
+				try {
+					String npmLocation = BowerPreferenceHolder.getNpmLocation();
+					String bowerLocation = BowerUtil.getBowerExecutableLocation();
+					if (npmLocation == null || npmLocation.isEmpty()) {
+						UIErrorHandler.npmLocationNotDefined();
+					} else if (bowerLocation == null ) {
+						UIErrorHandler.bowerNotInstalled();
+					} else {
+						execute(getWorkingDirectory((IResource) element), bowerLocation);						
+					}
 				} catch (CoreException e) {
 					Activator.logError(e);
 				}
@@ -49,17 +59,22 @@ public abstract class GenericBowerLaunch implements ILaunchShortcut {
 	public void launch(IEditorPart editor, String mode) {			
 	}
 	
-	private void execute(String workingDirectory) throws CoreException {
+	private void execute(String workingDirectory, String bowerExecutableLocation) {
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType programType = manager.getLaunchConfigurationType(IExternalToolConstants.ID_PROGRAM_LAUNCH_CONFIGURATION_TYPE);
-		ILaunchConfiguration cfg = programType.newInstance(null, getLaunchName());
-		ILaunchConfigurationWorkingCopy wc = cfg.getWorkingCopy();
-		wc.setAttribute(IExternalToolConstants.ATTR_LOCATION, BowerPreferenceHolder.getBowerExecutableLocation());
-		wc.setAttribute(IExternalToolConstants.ATTR_WORKING_DIRECTORY, "${workspace_loc:" + workingDirectory +"}"); //$NON-NLS-1$ //$NON-NLS-2$
-		wc.setAttribute(IExternalToolConstants.ATTR_TOOL_ARGUMENTS, getCommandArguments());
-		cfg = wc.doSave();
-		cfg.launch(ILaunchManager.RUN_MODE, null, false, true);
-		cfg.delete();
+		try {
+			ILaunchConfiguration cfg = programType.newInstance(null, getLaunchName());
+			ILaunchConfigurationWorkingCopy wc = cfg.getWorkingCopy();
+			wc.setAttribute(IExternalToolConstants.ATTR_LOCATION, bowerExecutableLocation);
+			wc.setAttribute(IExternalToolConstants.ATTR_WORKING_DIRECTORY, "${workspace_loc:" + workingDirectory + "}"); //$NON-NLS-1$ //$NON-NLS-2$
+			wc.setAttribute(IExternalToolConstants.ATTR_TOOL_ARGUMENTS, getCommandArguments());
+			cfg = wc.doSave();
+			cfg.launch(ILaunchManager.RUN_MODE, null, false, true);
+			cfg.delete();
+		} catch (CoreException e) {
+			Activator.logError(e);
+			UIErrorHandler.npmLocationNotDefined();
+		}
 	}
 	
 	

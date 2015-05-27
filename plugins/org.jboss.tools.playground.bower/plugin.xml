@@ -21,11 +21,21 @@
    <extension
          point="org.eclipse.core.expressions.propertyTesters">
 	    <propertyTester
-	      	id="org.jboss.tools.playground.bower.tester"
+	      	id="org.jboss.tools.playground.bower.update.tester"
 	      	type="org.eclipse.core.resources.IResource"
-	      	namespace="org.jboss.tools.playground.bower"
+	      	namespace="org.jboss.tools.playground.bower.update"
 	      	properties="isBowerInit"
-	      	class="org.jboss.tools.playground.bower.internal.launch.tester.BowerTester">
+	      	class="org.jboss.tools.playground.bower.internal.launch.tester.BowerUpdateTester">
+	    </propertyTester>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+	    <propertyTester
+	      	id="org.jboss.tools.playground.bower.init.tester"
+	      	type="org.eclipse.core.resources.IResource"
+	      	namespace="org.jboss.tools.playground.bower.init"
+	      	properties="isBowerInit"
+	      	class="org.jboss.tools.playground.bower.internal.launch.tester.BowerInitTester">
 	    </propertyTester>
    </extension>
    <extension
@@ -42,7 +52,7 @@
                     <count value="1"/>
                     <iterate>
                         <adapt  type="org.eclipse.core.resources.IResource">
-	                        <test property="org.jboss.tools.playground.bower.isBowerInit" 
+	                        <test property="org.jboss.tools.playground.bower.update.isBowerInit" 
 	                           	forcePluginActivation="true"/>
                         </adapt> 
                     </iterate>
@@ -67,7 +77,7 @@
                           <adapt type="org.eclipse.core.resources.IResource">
                               <and>
                                     <not>
-                                       <test property="org.jboss.tools.playground.bower.isBowerInit"
+                                       <test property="org.jboss.tools.playground.bower.init.isBowerInit"
                                            forcePluginActivation="true"/>
                                     </not>
                                     <test property="org.eclipse.core.resources.projectNature"
@@ -85,7 +95,7 @@
       <page
             category="org.jboss.tools.common.model.ui.MainPreferencePage"
             class="org.jboss.tools.playground.bower.internal.preferences.BowerPreferencePage"
-            id="org.jboss.tools.playground.bower.BowerPreferences"
+            id="org.jboss.tools.playground.bower.internal.preferences.BowerPreferencesPage"
             name="Bower">
       </page>
    </extension>
