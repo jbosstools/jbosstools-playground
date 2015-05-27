@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.jboss.tools.playground.bower.internal.Activator;
@@ -89,6 +90,16 @@ public class BowerPreferencePage extends FieldEditorPreferencePage implements IW
 				return false;
 			}
 			return true;
+		}
+		
+		@Override
+		protected void doLoadDefault() {
+			Text textControl = getTextControl();
+			if (textControl != null) {
+				String value = BowerPreferenceHolder.getNpmLocation();
+				textControl.setText(value);
+			}
+			valueChanged();
 		}
 		
 		@Override
