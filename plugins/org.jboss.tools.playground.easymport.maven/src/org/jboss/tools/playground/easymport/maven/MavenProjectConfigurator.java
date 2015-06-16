@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -33,18 +34,22 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public void configure(IProject project, Set<IPath> excludedDirectories, IProgressMonitor monitor) {
+	public void configure(final IProject project, Set<IPath> excludedDirectories, final IProgressMonitor monitor) {
 		// copied from org.eclipse.m2e.core.ui.internal.actions.EnableNatureAction
 
-		ResolverConfiguration configuration = new ResolverConfiguration();
+		final ResolverConfiguration configuration = new ResolverConfiguration();
         configuration.setResolveWorkspaceProjects(true);
-        IProjectConfigurationManager configurationManager = MavenPlugin.getProjectConfigurationManager();
+        final IProjectConfigurationManager configurationManager = MavenPlugin.getProjectConfigurationManager();
         try {
 	        if(!project.hasNature(IMavenConstants.NATURE_ID)) {
-	        	configurationManager.enableMavenNature(project, configuration, monitor);
+	        	IProjectDescription description = project.getDescription();
+	        	String[] prevNatures = description.getNatureIds();
+	        	String[] newNatures = new String[prevNatures.length + 1];
+	        	System.arraycopy(prevNatures, 0, newNatures, 1, prevNatures.length);
+	        	newNatures[0] = IMavenConstants.NATURE_ID;
+	        	description.setNatureIds(newNatures);
+	        	project.setDescription(description, monitor);
 	        }
-	        // Currently skipped as it takes too much time
-	        // configurationManager.updateProjectConfiguration(project, monitor);
         } catch (Exception ex) {
 			Activator.getDefault().getLog().log(new Status(
 					IStatus.ERROR,
