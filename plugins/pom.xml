@@ -15,7 +15,6 @@
 		<module>org.jboss.tools.playground.naturist</module>
 		<module>org.jboss.tools.playground.easymport.jee</module>
 		<module>org.jboss.tools.playground.easymport.maven</module>
-		<module>org.jboss.tools.playground.easymport.javascript</module>
 		<module>org.jboss.tools.playground.autosave</module>
 		<module>org.jboss.tools.playground.maven.autoupdate</module>
 		<module>org.jboss.tools.playground.bower</module>

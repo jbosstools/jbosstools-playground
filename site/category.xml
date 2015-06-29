@@ -18,9 +18,6 @@
    <bundle id="org.jboss.tools.playground.easymport.maven" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
-   <bundle id="org.jboss.tools.playground.easymport.javascript" version="0.0.0">
-      <category name="JBoss Tools Playground"/>
-   </bundle>
    <bundle id="org.jboss.tools.playground.autosave" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
@@ -42,6 +39,9 @@
       <category name="Deprecated"/>
    </bundle>
    <bundle id="org.jboss.tools.playground.easymport.pde" version="0.0.0">
+      <category name="Deprecated"/>
+   </bundle>
+   <bundle id="org.jboss.tools.playground.easymport.javascript" version="0.0.0">
       <category name="Deprecated"/>
    </bundle>
    <!--bundle id="org.jboss.tools.playground.easymport.egit" version="0.0.0">
