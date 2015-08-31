@@ -11,6 +11,7 @@
 package org.jboss.tools.playground.easymport.maven;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
@@ -27,7 +28,9 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.internal.IMavenConstants;
+import org.eclipse.m2e.core.internal.project.ProjectConfigurationManager;
 import org.eclipse.m2e.core.project.IProjectConfigurationManager;
+import org.eclipse.m2e.core.project.MavenUpdateRequest;
 import org.eclipse.m2e.core.project.ResolverConfiguration;
 import org.eclipse.m2e.core.ui.internal.UpdateMavenProjectJob;
 import org.eclipse.ui.wizards.datatransfer.ProjectConfigurator;
@@ -56,6 +59,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 		private UpdateMavenConfigurationJob() {
 			super("Update Maven projects configuration");
 			this.toProcess = new HashSet<IProject>();
+			this.setUser(true);
 		}
 		
 		/**
@@ -73,7 +77,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 			Set<IProject> toProcessNow = new HashSet<IProject>();
-			while (true) {
+			while (!monitor.isCanceled()) {
 				synchronized (this.toProcess) {
 					if (this.toProcess.isEmpty()) {
 						return Status.OK_STATUS;
@@ -84,8 +88,14 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 						this.toProcess.removeAll(toProcessNow);
 					}
 				}
-				new UpdateMavenProjectJob(toProcessNow.toArray(new IProject[toProcessNow.size()]), false, false, true, false, false).run(monitor);
+				if (!toProcessNow.isEmpty()) {
+				    ProjectConfigurationManager configurationManager = (ProjectConfigurationManager) MavenPlugin
+						        .getProjectConfigurationManager();
+				    MavenUpdateRequest request = new MavenUpdateRequest(toProcessNow.toArray(new IProject[toProcessNow.size()]), false, false);
+				    Map<String, IStatus> updateStatus = configurationManager.updateProjectConfiguration(request, true, false, false, monitor);
+				}
 			}
+			return new Status(IStatus.CANCEL, Activator.getDefault().getBundle().getSymbolicName(), "Cancelled by user");
 		}
 		
 	}
