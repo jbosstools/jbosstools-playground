@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.jboss.tools.playground.easymport.maven;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,6 +22,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -30,9 +34,10 @@ import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.internal.project.ProjectConfigurationManager;
 import org.eclipse.m2e.core.project.IProjectConfigurationManager;
+import org.eclipse.m2e.core.project.LocalProjectScanner;
+import org.eclipse.m2e.core.project.MavenProjectInfo;
 import org.eclipse.m2e.core.project.MavenUpdateRequest;
 import org.eclipse.m2e.core.project.ResolverConfiguration;
-import org.eclipse.m2e.core.ui.internal.UpdateMavenProjectJob;
 import org.eclipse.ui.wizards.datatransfer.ProjectConfigurator;
 
 public class MavenProjectConfigurator implements ProjectConfigurator {
@@ -100,6 +105,39 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 		
 	}
 
+	// TODO Uncomment @Override when following API got merged.
+	// this is commented in order to check it in build before API is available and avoid
+	// build failure because inteface doesn't declare the method (yet).
+	//@Override
+	public Set<File> findConfigurableLocations(File root, IProgressMonitor monitor) {
+		LocalProjectScanner scanner = new LocalProjectScanner(
+				ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile(),
+				root.getAbsolutePath(),
+				false,
+				MavenPlugin.getMavenModelManager());
+		try {
+			scanner.run(monitor);
+		} catch (Exception ex) {
+			Activator.getDefault().getLog().log(new Status(
+					IStatus.ERROR,
+					Activator.PLUGIN_ID,
+					ex.getMessage(),
+					ex));
+			return null;
+		}
+		List<MavenProjectInfo> projects = new ArrayList<MavenProjectInfo>();
+		projects.addAll(scanner.getProjects());
+		HashSet<File> res = new HashSet<File>();
+		int i = 0;
+		while (i < projects.size()) {
+			MavenProjectInfo projectInfo = projects.get(i);
+			res.add(projectInfo.getPomFile().getParentFile());
+			projects.addAll(projectInfo.getProjects());
+			i++;
+		}
+		return res;
+	}
+
 	@Override
 	public boolean canConfigure(IProject project, Set<IPath> ignoredPaths, IProgressMonitor monitor) {
 		return shouldBeAnEclipseProject(project, monitor);
@@ -157,6 +195,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 //			return false;
 //		}
 	}
+
 
 	@Override
 	public Set<IFolder> getDirectoriesToIgnore(IProject project, IProgressMonitor monitor) {
