@@ -1,9 +1,11 @@
 package org.jboss.tools.playground.easymport.jee.servlet;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
@@ -95,5 +97,12 @@ public class JaxRsConfigurator implements ProjectConfigurator {
 	@Override
 	public Set<IFolder> getDirectoriesToIgnore(IProject project, IProgressMonitor monitor) {
 		return null;
+	}
+
+	// TODO uncomment @Override when adopting newer Easymport
+	// @Override
+	public Set<File> findConfigurableLocations(File root, IProgressMonitor monitor) {
+		// No easy way to deduce project roots from jee files...
+		return Collections.EMPTY_SET;
 	}
 }

@@ -1,6 +1,8 @@
 package org.jboss.tools.playground.easymport.jee.servlet;
 
+import java.io.File;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -88,5 +90,12 @@ public class ServletProjectConfigurator implements ProjectConfigurator {
 	@Override
 	public Set<IFolder> getDirectoriesToIgnore(IProject project, IProgressMonitor monitor) {
 		return null;
+	}
+
+	// TODO uncomment @Override when adopting newer Easymport
+	// @Override
+	public Set<File> findConfigurableLocations(File root, IProgressMonitor monitor) {
+		// No easy way to deduce project roots from jee files...
+		return Collections.EMPTY_SET;
 	}
 }
