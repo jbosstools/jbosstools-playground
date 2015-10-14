@@ -12,6 +12,8 @@ package org.jboss.tools.playground.easymport.maven;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -32,15 +35,75 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.internal.IMavenConstants;
+import org.eclipse.m2e.core.internal.lifecyclemapping.discovery.LifecycleMappingDiscoveryRequest;
 import org.eclipse.m2e.core.internal.project.ProjectConfigurationManager;
 import org.eclipse.m2e.core.project.IProjectConfigurationManager;
 import org.eclipse.m2e.core.project.LocalProjectScanner;
 import org.eclipse.m2e.core.project.MavenProjectInfo;
 import org.eclipse.m2e.core.project.MavenUpdateRequest;
 import org.eclipse.m2e.core.project.ResolverConfiguration;
+import org.eclipse.m2e.core.ui.internal.wizards.LifecycleMappingDiscoveryHelper;
+import org.eclipse.m2e.core.ui.internal.wizards.MappingDiscoveryJob;
+import org.eclipse.ui.internal.wizards.datatransfer.EasymportJob;
 import org.eclipse.ui.wizards.datatransfer.ProjectConfigurator;
 
 public class MavenProjectConfigurator implements ProjectConfigurator {
+	
+	private static class CumulativeMappingDiscoveryJob extends MappingDiscoveryJob {
+		private static CumulativeMappingDiscoveryJob INSTANCE;
+		private Set<IProject> toProcess;
+		private boolean started;
+		
+		public synchronized static CumulativeMappingDiscoveryJob getInstance() {
+			if (INSTANCE == null) {
+				INSTANCE = new CumulativeMappingDiscoveryJob();
+			}
+			return INSTANCE;
+		}
+		
+		private CumulativeMappingDiscoveryJob() {
+			super(null);
+			this.toProcess = Collections.synchronizedSet(new HashSet<IProject>());
+		}
+		
+		public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException {
+			try {
+				getJobManager().join(EasymportJob.class, monitor);
+			} catch (InterruptedException ex) {
+				throw new CoreException(new Status(IStatus.WARNING, Activator.getDefault().getBundle().getSymbolicName(), ex.getMessage(), ex));
+			}
+			synchronized (this.toProcess) {
+				this.started = true;
+			}
+			//Detect and resolve Lifecycle Mapping issues
+			try {
+				LifecycleMappingDiscoveryRequest discoveryRequest = LifecycleMappingDiscoveryHelper.createLifecycleMappingDiscoveryRequest(toProcess, monitor);
+				if(discoveryRequest.isMappingComplete()) {
+					return Status.OK_STATUS;
+				}
+				//Some errors were detected
+				discoverProposals(discoveryRequest, monitor);
+				openProposalWizard(toProcess, discoveryRequest);
+				this.toProcess.clear();
+			} finally {
+				this.toProcess.clear();
+			}
+			return Status.OK_STATUS;
+		}
+			
+		public void addProjects(Collection<IProject> projects) {
+			synchronized (this.toProcess) {
+				if (this.started) {
+					throw new IllegalStateException("Cannot add projects when processing is started");
+				}
+				if (projects != null) {
+					this.toProcess.addAll(projects);
+				}
+			}
+		}
+		
+		
+	}
 	
 	/**
 	 * This singleton job will loop running on the background to update
@@ -85,6 +148,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 			while (!monitor.isCanceled()) {
 				synchronized (this.toProcess) {
 					if (this.toProcess.isEmpty()) {
+						CumulativeMappingDiscoveryJob.getInstance().schedule();
 						return Status.OK_STATUS;
 					} else {
 						for (IProject project : this.toProcess) {
@@ -94,6 +158,7 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 					}
 				}
 				if (!toProcessNow.isEmpty()) {
+					CumulativeMappingDiscoveryJob.getInstance().addProjects(toProcessNow);
 				    ProjectConfigurationManager configurationManager = (ProjectConfigurationManager) MavenPlugin
 						        .getProjectConfigurationManager();
 				    MavenUpdateRequest request = new MavenUpdateRequest(toProcessNow.toArray(new IProject[toProcessNow.size()]), false, false);
