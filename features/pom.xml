@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jboss.tools</groupId>
 		<artifactId>playground</artifactId>
-		<version>4.3.0-SNAPSHOT</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools.playground</groupId>
 	<artifactId>features</artifactId>
