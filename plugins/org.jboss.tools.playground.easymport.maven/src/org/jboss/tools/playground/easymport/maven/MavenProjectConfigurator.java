@@ -84,9 +84,9 @@ public class MavenProjectConfigurator implements ProjectConfigurator {
 				//Some errors were detected
 				discoverProposals(discoveryRequest, monitor);
 				openProposalWizard(toProcess, discoveryRequest);
-				this.toProcess.clear();
 			} finally {
 				this.toProcess.clear();
+				this.started = false;
 			}
 			return Status.OK_STATUS;
 		}
