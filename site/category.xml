@@ -24,6 +24,9 @@
    <bundle id="org.jboss.tools.playground.maven.autoupdate" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
+   <bundle id="org.jboss.tools.playground.refreshment" version="0.0.0">
+      <category name="JBoss Tools Playground"/>
+   </bundle>
    <bundle id="org.jboss.tools.playground.bower" version="0.0.0">
       <category name="JBoss Tools Bower"/>
    </bundle>

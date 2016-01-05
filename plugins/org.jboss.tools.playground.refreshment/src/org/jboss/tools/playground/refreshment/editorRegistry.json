@@ -1,0 +1,42 @@
+[
+	{
+		"fileName" : "*.yaml",
+		"site" : "http://dadacoalition.org/yedit",
+		"units" : [ "org.dadacoalition.yedit.feature.feature.group" ]
+	},
+	{
+		"fileName" : "*.yml",
+		"site" : "http://dadacoalition.org/yedit",
+		"units" : [ "org.dadacoalition.yedit.feature.feature.group" ]
+	},
+	{
+		"fileName" : "*.js",
+		"site" : "http://download.eclipse.org/releases/mars",
+		"units" : [ "org.eclipse.wst.jsdt.feature.feature.group" ]
+	},
+	{
+		"fileName" : "*.gradle",
+		"site" : "http://download.eclipse.org/releases/mars",
+		"units" : [ "org.eclipse.buildship.feature.group" ]
+	},
+	{
+		"fileName" : "*.sh",
+		"site" : "http://download.eclipse.org/technology/dltk/updates-dev/latest-nightly/",
+		"units" : [ "org.eclipse.dltk.sh.feature.group" ]
+	},
+	{
+		"fileName" : "*.rb",
+		"site" : "http://download.eclipse.org/technology/dltk/updates-dev/latest-nightly/",
+		"units" : [ "org.eclipse.dltk.ruby.feature.group" ]
+	},
+	{
+		"fileName" : "Dockerfile",
+		"site" : "http://dl.bintray.com/zenika/doclipser",
+		"units" : [ "com.zenika.doclipser.features.dockerfileeditor.feature.group" ]
+	},
+	{
+		"fileName" : "*.hprof",
+		"site" : "http://download.eclipse.org/mat/1.5/update-site/",
+		"units" : [ "org.eclipse.mat.feature.feature.group" ]
+	}
+]

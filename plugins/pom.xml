@@ -18,5 +18,6 @@
 		<module>org.jboss.tools.playground.autosave</module>
 		<module>org.jboss.tools.playground.maven.autoupdate</module>
 		<module>org.jboss.tools.playground.bower</module>
+		<module>org.jboss.tools.playground.refreshment</module>
 	</modules>
 </project>
