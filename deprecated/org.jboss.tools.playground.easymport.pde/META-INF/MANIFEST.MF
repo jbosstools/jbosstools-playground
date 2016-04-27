@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Easymport :: PDE support (Deprecated, moved to e4
-Bundle-SymbolicName: org.jboss.tools.playground.easymport.pde;singleton:=true
-Bundle-Version: 1.1.0.qualifier
-Bundle-Vendor: JBoss, by Red Hat
-Require-Bundle: org.eclipse.e4.ui.importer.pde
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Bundle-ActivationPolicy: lazy

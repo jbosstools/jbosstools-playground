@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Easymport :: JavaScript support (deprecated, moved to JSDT)
-Bundle-SymbolicName: org.jboss.tools.playground.easymport.javascript;singleton:=true
-Bundle-Version: 1.1.0.qualifier
-Bundle-Vendor: JBoss, by Red Hat
-Require-Bundle: org.eclipse.wst.jsdt.ui.importer
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ActivationPolicy: lazy

@@ -4,18 +4,10 @@
       JBoss Tools Playground are experimental plugins made by the
  JBoss Tools team for various improvements to base Eclipse functionallity.
    </description>
-   <category-def name="JBoss Tools Playground" label="JBoss Tools Playground">
-      <description>
-         Generic addition for project management in Eclipse.
-      </description>
-   </category-def>
    <bundle id="org.jboss.tools.playground.naturist" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
    <bundle id="org.jboss.tools.playground.easymport.jee" version="0.0.0">
-      <category name="JBoss Tools Playground"/>
-   </bundle>
-   <bundle id="org.jboss.tools.playground.easymport.maven" version="0.0.0">
       <category name="JBoss Tools Playground"/>
    </bundle>
    <bundle id="org.jboss.tools.playground.autosave" version="0.0.0">
@@ -27,24 +19,9 @@
    <bundle id="org.jboss.tools.playground.bower" version="0.0.0">
       <category name="JBoss Tools Bower"/>
    </bundle>
-
-   <category-def name="Deprecated" label="Deprecated (moved to Eclipse Platform or e4)"/>
-   <bundle id="org.jboss.tools.playground.nestor" version="0.0.0">
-      <category name="Deprecated"/>
-   </bundle>
-   <bundle id="org.jboss.tools.playground.easymport" version="0.0.0">
-      <category name="Deprecated"/>
-   </bundle>
-   <bundle id="org.jboss.tools.playground.easymport.java" version="0.0.0">
-      <category name="Deprecated"/>
-   </bundle>
-   <bundle id="org.jboss.tools.playground.easymport.pde" version="0.0.0">
-      <category name="Deprecated"/>
-   </bundle>
-   <bundle id="org.jboss.tools.playground.easymport.javascript" version="0.0.0">
-      <category name="Deprecated"/>
-   </bundle>
-   <!--bundle id="org.jboss.tools.playground.easymport.egit" version="0.0.0">
-      <category name="Deprecated"/>
-   </bundle-->
+   <category-def name="JBoss Tools Playground" label="JBoss Tools Playground">
+      <description>
+         Generic addition for project management in Eclipse.
+      </description>
+   </category-def>
 </site>

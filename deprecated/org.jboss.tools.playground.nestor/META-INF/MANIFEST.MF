@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Nestor : Remove me (integrated in Platform 4.4.M5)
-Bundle-SymbolicName: org.jboss.tools.playground.nestor;singleton:=true
-Bundle-Version: 1.1.0.qualifier
-Bundle-Vendor: JBoss, by Red Hat
-Require-Bundle: org.eclipse.ui.navigator.resources;bundle-version="3.4.800.N20140124-1500"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ActivationPolicy: lazy

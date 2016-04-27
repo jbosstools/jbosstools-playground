@@ -8,7 +8,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.ui.wizards.JDTProjectNature;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
@@ -17,7 +16,6 @@ public class DynamicProjectTools {
 
 	public static void convertToFacetedProject(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) throws Exception {
 		if (!ProjectFacetsManager.isProjectFacetDefined(project.getName())) {
-			new JDTProjectNature().configure(project, ignoredDirectories, monitor);
 			IFacetedProject facetedProject = ProjectFacetsManager.create(project, true, monitor);
 			IProjectFacet JAVA_FACET = ProjectFacetsManager.getProjectFacet("jst.java");
 	
