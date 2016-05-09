@@ -43,11 +43,6 @@ public class JPAProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public IWizard getConfigurationWizard() {
-		return null;
-	}
-
-	@Override
 	public void configure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		try {
 			DynamicProjectTools.convertToFacetedProject(project, ignoredDirectories, monitor);
@@ -83,12 +78,11 @@ public class JPAProjectConfigurator implements ProjectConfigurator {
 	}
 
 	@Override
-	public Set<IFolder> getDirectoriesToIgnore(IProject project, IProgressMonitor monitor) {
+	public Set<IFolder> getFoldersToIgnore(IProject project, IProgressMonitor monitor) {
 		return null;
 	}
 
-	// TODO uncomment @Override when adopting newer Easymport
-	// @Override
+	@Override
 	public Set<File> findConfigurableLocations(File root, IProgressMonitor monitor) {
 		// No easy way to deduce project roots from jee files...
 		return Collections.EMPTY_SET;
