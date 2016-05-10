@@ -15,7 +15,6 @@
 	</properties>
 	<modules>
 		<module>plugins</module>
-		<module>deprecated</module>
 		<module>features</module>
 		<module>site</module>
 	</modules>
