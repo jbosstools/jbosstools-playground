@@ -21,14 +21,5 @@
             </hasFileRecursively>
          </activeWhen>
       </projectConfigurator>
-      <projectConfigurator
-            class="org.jboss.tools.playground.easymport.jee.servlet.JaxRsConfigurator"
-            label="Java EE Jax-RS">
-         <activeWhen>
-            <hasFileRecursively
-                  filename="web.xml">
-            </hasFileRecursively>
-         </activeWhen>
-      </projectConfigurator>
    </extension>
 </plugin>
